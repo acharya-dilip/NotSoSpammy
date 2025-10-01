@@ -11,7 +11,7 @@ static void activate (GtkApplication *app,gpointer user_data){
     GtkWidget *gridParent; //The Parent grid where other sub grids will rest
     GtkWidget *displayUserID;//Will be stored in the form of Gmail for Simplicity sake
     GtkWidget *displayTokenCount;
-    GtkWidget *recipientMail;//WIdget for Entry
+    GtkWidget *entryRecipientMail;//WIdget for Entry
     GtkWidget *recipientMailFrame; //Widget for frame
 
     GtkWidget *mailDisplay;
@@ -26,12 +26,18 @@ static void activate (GtkApplication *app,gpointer user_data){
     //Initialization of gridParent
     gridParent = gtk_grid_new ();
     gtk_window_set_child(GTK_WINDOW(NotSoSpammyWindow), gridParent);
+    gtk_widget_set_halign(gridParent, GTK_ALIGN_CENTER);
 
 
     //Initialization of gridUserIDToken
     gridUserIDToken = gtk_grid_new ();
     gtk_grid_attach(GTK_GRID(gridParent), gridUserIDToken, 0, 0, 10, 1);
     gtk_grid_set_column_spacing(GTK_GRID(gridUserIDToken), 170);
+
+    //Margins & Paddings for gridUserIDToken
+        gtk_widget_set_margin_top(gridUserIDToken, 20);
+
+
 
     //Implementation of gmail shown as UserID
 
@@ -40,6 +46,9 @@ static void activate (GtkApplication *app,gpointer user_data){
     snprintf(labelUserID,sizeof(labelUserID),"UserID: %s",gmail);
     displayUserID = gtk_frame_new(labelUserID);
     gtk_grid_attach(GTK_GRID(gridUserIDToken), displayUserID, 0, 0, 3, 1);
+
+    //Margins & Paddings for UserID/Gmail
+        gtk_widget_set_margin_start (gridUserIDToken, 10);
 
     //Implementation of Token Count
     char labelTokenCount[50];
@@ -54,11 +63,12 @@ static void activate (GtkApplication *app,gpointer user_data){
     gtk_grid_attach(GTK_GRID(gridParent), recipientMailFrame, 1, 1,8 , 6);
 
     //Implementation of Recipient Email Entry
-    recipientMail = gtk_entry_new();
-    gtk_frame_set_child(GTK_FRAME(recipientMailFrame),recipientMail);
-    gtk_entry_set_placeholder_text(GTK_ENTRY(recipientMail),"Enter Recipient Email");
-    gtk_grid_attach(GTK_GRID(gridUserIDToken), recipientMail, 0, 1, 1, 1);
-
+    entryRecipientMail = gtk_entry_new();
+    gtk_frame_set_child(GTK_FRAME(recipientMailFrame),entryRecipientMail);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Email");
+    gtk_grid_attach(GTK_GRID(gridUserIDToken), entryRecipientMail, 0, 1, 1, 1);
+    //To instantly grab focus/ receive the keyboard input
+    gtk_widget_grab_focus(entryRecipientMail);
 
 
 }
