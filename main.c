@@ -13,19 +13,22 @@ extern int tokenCount = 69;
 extern int varWidth=0;
 extern int varHeight=0;
 
+
+//Declaring Necessary Items for the MAIN PROGRAM GUI
+GtkWidget *NotSoSpammyWindow;
+GtkWidget *gridUserIDToken; //The Grid used to organize the buttons and other GUI elements
+GtkWidget *gridParent; //The Parent grid where other sub grids will rest
+GtkWidget *lockedEntryUserID; //Label where user ID will be displayed
+GtkWidget *frameTokenCount;
+GtkWidget *labelTokenCount;
+GtkWidget *entryRecipientMail;//WIdget for Entry
+GtkWidget *frameRecipientMail; //Widget for frame
+GtkWidget *lockedEntrySubjectMail;
+GtkWidget *lockedEntryMail;
+GtkWidget *buttonSendMail;
+
 static void mainWindow() {
-    //Declaring Necessary Items for the GUI
-    GtkWidget *NotSoSpammyWindow;
-    GtkWidget *gridUserIDToken; //The Grid used to organize the buttons and other GUI elements
-    GtkWidget *gridParent; //The Parent grid where other sub grids will rest
-    GtkWidget *lockedEntryUserID; //Label where user ID will be displayed
-    GtkWidget *frameTokenCount;
-    GtkWidget *labelTokenCount;
-    GtkWidget *entryRecipientMail;//WIdget for Entry
-    GtkWidget *frameRecipientMail; //Widget for frame
-    GtkWidget *lockedEntrySubjectMail;
-    GtkWidget *lockedEntryMail;
-    GtkWidget *buttonSendMail;
+
 
 
     //Main Window Init and Customization
@@ -226,7 +229,10 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
     GtkWidget *entryEditMailBody;
     GtkWidget *buttonConfirmEdit;
 void editMail(GtkApplication *app, gpointer user_data){
-
+    windowEditMail = gtk_entry_new();
+    gtk_window_set_title(GTK_WINDOW(windowEditMail),"Edit Mail");
+    gtk_window_set_default_size(GTK_WINDOW(windowEditMail),400,400);
+    gtk_window_present(GTK_WINDOW(windowEditMail));
 }
 
 
