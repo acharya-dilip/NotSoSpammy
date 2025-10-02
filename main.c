@@ -3,6 +3,7 @@
 
 void checkLogin(GtkApplication *app,gpointer user_data);
 static void mainWindow();
+void editMail(GtkApplication *app, gpointer user_data);
 
 
 extern char gmail[50]="admin";
@@ -218,6 +219,17 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
         mainWindow();
     }
 }
+//Widgets needed for the mail editing window
+    GtkWidget *windowEditMail;
+    GtkWidget *gridParentEdit;
+    GtkWidget *entryEditMailSubject;
+    GtkWidget *entryEditMailBody;
+    GtkWidget *buttonConfirmEdit;
+void editMail(GtkApplication *app, gpointer user_data){
+
+}
+
+
 
 int main(int argc, char **argv) {
     GtkApplication *app;
