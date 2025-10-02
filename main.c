@@ -26,6 +26,7 @@ GtkWidget *frameRecipientMail; //Widget for frame
 GtkWidget *lockedEntrySubjectMail;
 GtkWidget *lockedEntryMail;
 GtkWidget *buttonSendMail;
+GtkWidget *buttonEditMail;
 
 static void mainWindow() {
 
