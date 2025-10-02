@@ -25,7 +25,7 @@ static void mainWindow(void) {
 
 
     //Main Window Init and Customization
-    NotSoSpammyWindow = gtk_window_new ();
+    NotSoSpammyWindow = gtk_window_new();
     gtk_window_set_title (GTK_WINDOW (NotSoSpammyWindow), "NotSoSpammy");
     gtk_window_set_default_size (GTK_WINDOW (NotSoSpammyWindow), 400, 400);
     gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
@@ -211,6 +211,7 @@ static void activate (GtkApplication *app,gpointer user_data){
 void checkLogin(GtkApplication *app,gpointer user_data) {
     if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),"acharyamission6@gmail.com")==0 ||
         strcmp(gtk_editable_get_text(GTK_EDITABLE(entryPassword)),"admin") == 0) {
+        gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
         mainWindow();
     }
 }
