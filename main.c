@@ -4,7 +4,7 @@
 void checkLogin(GtkApplication *app,gpointer user_data);
 static void mainWindow();
 void editMail(GtkApplication *app, gpointer user_data);
-
+void closeLoginWindow(GtkApplication *app, gpointer user_data);
 
 extern char gmail[50]="admin";
 extern int tokenCount = 69;
@@ -27,6 +27,14 @@ GtkWidget *lockedEntrySubjectMail;
 GtkWidget *lockedEntryMail;
 GtkWidget *buttonSendMail;
 GtkWidget *buttonEditMail;
+//VARIABLES FOR LOGIN SCREEN
+GtkWidget *windowLoginScreen;
+GtkWidget *gridParentLogin;
+GtkWidget *entryGmail;
+GtkWidget *labelGmail;
+GtkWidget *entryPassword;
+GtkWidget *labelPassword;
+GtkWidget *buttonLogin;
 
 static void mainWindow() {
 
@@ -37,6 +45,7 @@ static void mainWindow() {
     gtk_window_set_title (GTK_WINDOW (NotSoSpammyWindow), "NotSoSpammy");
     gtk_window_set_default_size (GTK_WINDOW (NotSoSpammyWindow), 400, 400);
     gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
+    g_signal_connect(NotSoSpammyWindow, "close-request",G_CALLBACK(closeLoginWindow),NULL);
 
 
 
@@ -145,14 +154,7 @@ static void mainWindow() {
 }
 
 
-    //VARIABLES FOR LOGIN SCREEN
-    GtkWidget *windowLoginScreen;
-    GtkWidget *gridParentLogin;
-    GtkWidget *entryGmail;
-    GtkWidget *labelGmail;
-    GtkWidget *entryPassword;
-    GtkWidget *labelPassword;
-    GtkWidget *buttonLogin;
+
 static void activate (GtkApplication *app,gpointer user_data){
 
 
@@ -222,6 +224,10 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
         gtk_widget_set_visible(windowLoginScreen,FALSE);
         mainWindow();
     }
+}
+//FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
+void closeLoginWindow(GtkApplication *app, gpointer user_data) {
+    gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
 }
 //Widgets needed for the mail editing window
     GtkWidget *windowEditMail;
