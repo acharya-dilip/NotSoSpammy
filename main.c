@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include<gtk/gtk.h>
 
-
+void checkLogin(GtkApplication *app,gpointer user_data);
 extern char gmail[50]="acharyamission6@gmail.com";
 extern int tokenCount = 69;
 
@@ -136,17 +136,17 @@ static void mainWindow(void) {
 
 }
 
-static void activate (GtkApplication *app,gpointer user_data){
 
+    //VARIABLES FOR LOGIN SCREEN
     GtkWidget *windowLoginScreen;
     GtkWidget *gridParentLogin;
-    GtkWidget *frameGmail;
     GtkWidget *entryGmail;
     GtkWidget *labelGmail;
-    GtkWidget *framePassword;
     GtkWidget *entryPassword;
     GtkWidget *labelPassword;
     GtkWidget *buttonLogin;
+static void activate (GtkApplication *app,gpointer user_data){
+
 
     //LOGIN SCREEN FOR THE MAIN APP
     windowLoginScreen = gtk_application_window_new(app);
@@ -162,8 +162,6 @@ static void activate (GtkApplication *app,gpointer user_data){
     //gtk_widget_set_halign(gridParentLogin,GTK_ALIGN_CENTER);
     //gtk_widget_set_valign(gridParentLogin,GTK_ALIGN_CENTER);
         gtk_widget_set_size_request(gridParentLogin, 350, 100);
-
-
 
     //Implementation of Mail entering field
     //LABEL FOR GMAIL
@@ -182,9 +180,6 @@ static void activate (GtkApplication *app,gpointer user_data){
         gtk_widget_set_margin_end(entryGmail,15);
         gtk_widget_set_size_request(entryGmail, 100, -1);
 
-
-
-
     //Implementation of Password entry
     labelPassword = gtk_label_new("Password: ");
     gtk_grid_attach(GTK_GRID(gridParentLogin),labelPassword, 0, 1, 1, 1);
@@ -199,10 +194,10 @@ static void activate (GtkApplication *app,gpointer user_data){
         gtk_widget_set_margin_start(entryPassword,5);
         gtk_widget_set_margin_end(entryPassword,15);
 
-
     //Implementation of buttonLogin
     buttonLogin = gtk_button_new_with_label("Login");
     gtk_grid_attach(GTK_GRID(gridParentLogin),buttonLogin, 2, 2, 6, 1);
+    g_signal_connect(buttonLogin, "clicked",G_CALLBACK(checkLogin),NULL);
 
     //Margins & Padding
     //gtk_widget_set_margin_start(buttonLogin,15);
@@ -210,6 +205,14 @@ static void activate (GtkApplication *app,gpointer user_data){
 
 
 
+}
+
+//function to check login
+void checkLogin(GtkApplication *app,gpointer user_data) {
+    if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),"acharyamission6@gmail.com")==0 ||
+        strcmp(gtk_editable_get_text(GTK_EDITABLE(entryPassword)),"admin") == 0) {
+        mainWindow();
+    }
 }
 
 int main(int argc, char **argv) {
