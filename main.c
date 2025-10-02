@@ -2,14 +2,17 @@
 #include<gtk/gtk.h>
 
 void checkLogin(GtkApplication *app,gpointer user_data);
-extern char gmail[50]="acharyamission6@gmail.com";
+static void mainWindow();
+
+
+extern char gmail[50]="admin";
 extern int tokenCount = 69;
 
 //Size variables for userID and recipient mail
 extern int varWidth=0;
 extern int varHeight=0;
 
-static void mainWindow(void) {
+static void mainWindow() {
     //Declaring Necessary Items for the GUI
     GtkWidget *NotSoSpammyWindow;
     GtkWidget *gridUserIDToken; //The Grid used to organize the buttons and other GUI elements
@@ -25,7 +28,7 @@ static void mainWindow(void) {
 
 
     //Main Window Init and Customization
-    NotSoSpammyWindow = gtk_window_new();
+    NotSoSpammyWindow = gtk_window_new ();
     gtk_window_set_title (GTK_WINDOW (NotSoSpammyWindow), "NotSoSpammy");
     gtk_window_set_default_size (GTK_WINDOW (NotSoSpammyWindow), 400, 400);
     gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
@@ -209,9 +212,9 @@ static void activate (GtkApplication *app,gpointer user_data){
 
 //function to check login
 void checkLogin(GtkApplication *app,gpointer user_data) {
-    if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),"acharyamission6@gmail.com")==0 ||
+    if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),gmail)==0 &&
         strcmp(gtk_editable_get_text(GTK_EDITABLE(entryPassword)),"admin") == 0) {
-        gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
+        gtk_widget_set_visible(windowLoginScreen,FALSE);
         mainWindow();
     }
 }
