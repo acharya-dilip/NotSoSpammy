@@ -30,7 +30,7 @@ static void activate (GtkApplication *app,gpointer user_data){
     NotSoSpammyWindow = gtk_application_window_new (app);
     gtk_window_set_title (GTK_WINDOW (NotSoSpammyWindow), "NotSoSpammy");
     gtk_window_set_default_size (GTK_WINDOW (NotSoSpammyWindow), 400, 400);
-    gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
+    //gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
 
 
 
