@@ -9,8 +9,7 @@ extern int tokenCount = 69;
 extern int varWidth=0;
 extern int varHeight=0;
 
-
-static void activate (GtkApplication *app,gpointer user_data){
+static void mainWindow(void) {
     //Declaring Necessary Items for the GUI
     GtkWidget *NotSoSpammyWindow;
     GtkWidget *gridUserIDToken; //The Grid used to organize the buttons and other GUI elements
@@ -25,12 +24,11 @@ static void activate (GtkApplication *app,gpointer user_data){
     GtkWidget *buttonSendMail;
 
 
-
     //Main Window Init and Customization
-    NotSoSpammyWindow = gtk_application_window_new (app);
+    NotSoSpammyWindow = gtk_window_new ();
     gtk_window_set_title (GTK_WINDOW (NotSoSpammyWindow), "NotSoSpammy");
     gtk_window_set_default_size (GTK_WINDOW (NotSoSpammyWindow), 400, 400);
-    //gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
+    gtk_window_present (GTK_WINDOW (NotSoSpammyWindow));
 
 
 
@@ -135,6 +133,75 @@ static void activate (GtkApplication *app,gpointer user_data){
         gtk_widget_set_margin_start(buttonSendMail,15);
         gtk_widget_set_margin_end(buttonSendMail,15);
         gtk_widget_set_margin_bottom(buttonSendMail,15);
+
+}
+
+static void activate (GtkApplication *app,gpointer user_data){
+
+    GtkWidget *windowLoginScreen;
+    GtkWidget *gridParentLogin;
+    GtkWidget *frameGmail;
+    GtkWidget *entryGmail;
+    GtkWidget *labelGmail;
+    GtkWidget *framePassword;
+    GtkWidget *entryPassword;
+    GtkWidget *labelPassword;
+    GtkWidget *buttonLogin;
+
+    //LOGIN SCREEN FOR THE MAIN APP
+    windowLoginScreen = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(windowLoginScreen),"LOGIN");
+    gtk_window_set_default_size(GTK_WINDOW(windowLoginScreen),350,150);
+    gtk_window_present(GTK_WINDOW(windowLoginScreen));
+
+    //Implementation of gridParentLogin
+    gridParentLogin = gtk_grid_new();
+    gtk_window_set_child(GTK_WINDOW(windowLoginScreen),gridParentLogin);
+
+    //Margins & Padding
+    //gtk_widget_set_halign(gridParentLogin,GTK_ALIGN_CENTER);
+    //gtk_widget_set_valign(gridParentLogin,GTK_ALIGN_CENTER);
+        gtk_widget_set_size_request(gridParentLogin, 350, 100);
+
+
+
+    //Implementation of Mail entering field
+    //LABEL FOR GMAIL
+    labelGmail = gtk_label_new("User ID: ");
+    gtk_grid_attach(GTK_GRID(gridParentLogin),labelGmail, 0, 0, 1, 1);
+    //Margins & Padding
+        gtk_widget_set_halign(labelGmail,GTK_ALIGN_END);
+        gtk_widget_set_margin_start(labelGmail,10);
+
+    //ENTRY FOR GMAIL
+    entryGmail = gtk_entry_new();
+    gtk_grid_attach(GTK_GRID(gridParentLogin),entryGmail, 4, 0, 1, 1);
+    //Margins & Padding
+        gtk_widget_set_hexpand(entryGmail, TRUE);
+        gtk_widget_set_margin_start(entryGmail,5);
+        gtk_widget_set_margin_end(entryGmail,15);
+        gtk_widget_set_size_request(entryGmail, 100, -1);
+
+
+
+
+    //Implementation of Password entry
+    labelPassword = gtk_label_new("Password: ");
+    gtk_grid_attach(GTK_GRID(gridParentLogin),labelPassword, 0, 1, 1, 1);
+    //Margins & Padding
+        gtk_widget_set_halign(labelPassword,GTK_ALIGN_END);
+        gtk_widget_set_margin_start(labelPassword,10);
+    entryPassword = gtk_entry_new();
+    //MAKING IT SO THAT WHEN YOU TYPE PASSWORD IT WON't BE VISIBLE
+    gtk_entry_set_visibility(GTK_ENTRY(entryPassword),FALSE);
+    gtk_grid_attach(GTK_GRID(gridParentLogin),entryPassword, 4, 1, 6, 1);
+    //Margins & PAdding
+        gtk_widget_set_margin_start(entryPassword,5);
+        gtk_widget_set_margin_end(entryPassword,15);
+
+
+
+
 
 
 
