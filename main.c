@@ -114,6 +114,11 @@ static void mainWindow() {
         //gtk_widget_set_margin_top(recipientMailFrame, 5);
         gtk_widget_set_margin_start(frameRecipientMail, 15);
         gtk_widget_set_halign(frameRecipientMail, GTK_ALIGN_START);
+    //Initialisation of buttonEditMail
+    buttonEditMail = gtk_button_new_with_label("📝");
+    gtk_grid_attach(GTK_GRID(gridParent),buttonEditMail,2,1,1,1);
+    //Margin & Paddings
+    gtk_widget_set_margin_end(buttonEditMail, 15);
 
 
     //Initialization of entrySubjectMail where the subject of the mail is displayed
