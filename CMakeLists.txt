@@ -11,6 +11,7 @@ include_directories(${GTK4_INCLUDE_DIRS})
 link_directories(${GTK4_LIBRARY_DIRS})
 
 add_executable(justasimpleccal main.c
+        login.c
 )
 
 target_link_libraries(${PROJECT_NAME} ${GTK4_LIBRARIES})
