@@ -200,8 +200,13 @@ static void activate (GtkApplication *app,gpointer user_data){
         gtk_widget_set_margin_end(entryPassword,15);
 
 
+    //Implementation of buttonLogin
+    buttonLogin = gtk_button_new_with_label("Login");
+    gtk_grid_attach(GTK_GRID(gridParentLogin),buttonLogin, 2, 2, 6, 1);
 
-
+    //Margins & Padding
+    //gtk_widget_set_margin_start(buttonLogin,15);
+    gtk_widget_set_margin_end(buttonLogin,15);
 
 
 
