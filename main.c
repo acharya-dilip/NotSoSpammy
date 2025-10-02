@@ -23,7 +23,7 @@ static void activate (GtkApplication *app,gpointer user_data){
 
     GtkWidget *lockedEntrySubjectMail;
     GtkWidget *lockedEntryMail;
-    GtkWidget *sendMail;
+    GtkWidget *buttonSendMail;
 
     //Main Window Init and Customization
     NotSoSpammyWindow = gtk_application_window_new (app);
@@ -35,6 +35,8 @@ static void activate (GtkApplication *app,gpointer user_data){
     gridParent = gtk_grid_new ();
     gtk_window_set_child(GTK_WINDOW(NotSoSpammyWindow), gridParent);
     gtk_widget_set_halign(gridParent, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(gridParent, GTK_ALIGN_CENTER);
+
 
 
     //Initialization of gridUserIDToken
@@ -110,6 +112,9 @@ static void activate (GtkApplication *app,gpointer user_data){
     gtk_grid_attach(GTK_GRID(gridParent),lockedEntrySubjectMail,0,2,1,1);
 
     //Margins & Padding
+    gtk_widget_set_margin_start(lockedEntrySubjectMail, 15);
+    gtk_widget_set_margin_top(lockedEntrySubjectMail,15);
+    gtk_widget_set_margin_end(lockedEntrySubjectMail,15);
 
     //Initialization of the lockedEntryMail which is the field where the mail that is to be sent will be displayed
     lockedEntryMail = gtk_entry_new();
@@ -122,7 +127,18 @@ static void activate (GtkApplication *app,gpointer user_data){
     gtk_widget_set_margin_start(lockedEntryMail, 15);
     gtk_widget_set_margin_top(lockedEntryMail,15);
     gtk_widget_set_margin_bottom(lockedEntryMail, 15);
+    gtk_widget_set_margin_end(lockedEntryMail,15);
     gtk_widget_set_halign(lockedEntryMail, GTK_ALIGN_CENTER);
+
+    //Implementation of the Send Mail Button
+    buttonSendMail = gtk_button_new_with_label("Send");
+    gtk_grid_attach(GTK_GRID(gridParent),buttonSendMail,0,4,1,1);
+
+    //MARGINS & PADDING
+    gtk_widget_set_margin_start(buttonSendMail,15);
+    gtk_widget_set_margin_end(buttonSendMail,15);
+    gtk_widget_set_margin_bottom(buttonSendMail,15);
+
 
 
 }
