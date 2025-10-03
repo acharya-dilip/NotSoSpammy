@@ -101,6 +101,9 @@ static void mainWindow() {
     //Implementation of Recipient Email
     gridRecipientMailEditButton = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(gridParent), gridRecipientMailEditButton, 0, 1, 2, 1);
+    //gtk_widget_set_size_request(gridRecipientMailEditButton, 400, 20);
+    gtk_grid_set_column_spacing(GTK_GRID(gridRecipientMailEditButton), 170);
+
 
     entryRecipientMail = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
@@ -113,7 +116,7 @@ static void mainWindow() {
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton),buttonEditMail,1,0,1,1);
     //Margin & Paddings
     gtk_widget_set_margin_end(buttonEditMail, 15);
-
+    gtk_widget_set_halign(buttonEditMail, GTK_ALIGN_END);
 
 
     //Initialization of entrySubjectMail where the subject of the mail is displayed
