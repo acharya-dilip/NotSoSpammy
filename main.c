@@ -99,12 +99,15 @@ static void mainWindow() {
 
 
     //Implementation of Recipient Email
-
     gridRecipientMailEditButton = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(gridParent), gridRecipientMailEditButton, 0, 1, 2, 1);
+
     entryRecipientMail = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
+    gtk_widget_set_size_request(entryRecipientMail, 350, 20);
+    gtk_widget_set_halign(entryRecipientMail, GTK_ALIGN_START);
+    gtk_widget_set_margin_start(entryRecipientMail, 15);
     //Initialisation of buttonEditMail
     buttonEditMail = gtk_button_new_with_label("📝");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton),buttonEditMail,1,0,1,1);
