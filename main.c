@@ -287,6 +287,22 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_widget_set_margin_bottom(buttonSubmit,10);
     gtk_widget_set_halign(buttonSubmit,GTK_ALIGN_START);
 
+    //Implementation of Token Count in the edit window
+    char TokenCount[50];
+    snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
+    labelTokenCount = gtk_label_new (TokenCount);
+    frameTokenCount = gtk_frame_new(NULL);
+    gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
+    //gtk_frame_set_label_widget(GTK_FRAME(frameTokenCount), labelTokenCount);
+    gtk_grid_attach(GTK_GRID(gridParentEdit), frameTokenCount, 9, 11, 1, 1);
+    //MARGINS & Paddings
+    gtk_widget_set_margin_end(frameTokenCount,10);
+    gtk_widget_set_margin_bottom(frameTokenCount,10);
+    gtk_widget_set_size_request(frameTokenCount, 30, 30);
+    gtk_widget_set_valign(frameTokenCount,GTK_ALIGN_END);
+
+
+
 
 
 }
