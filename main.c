@@ -99,21 +99,7 @@ static void mainWindow() {
 
 
     //Implementation of Recipient Email
-    // //Implementation of Recipient Email Frame
-    // frameRecipientMail = gtk_frame_new(NULL);
-    // gtk_grid_attach(GTK_GRID(gridParent), frameRecipientMail, 0, 1,1 , 1);
-    // //Implementation of Recipient Email Entry
-    entryRecipientMail = gtk_entry_new();
-    //gtk_frame_set_child(GTK_FRAME(frameRecipientMail),entryRecipientMail);
-    gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Email");
-    gtk_grid_attach(GTK_GRID(gridUserIDToken), entryRecipientMail, 1, 0, 1, 1);
-    //To instantly grab focus/ receive the keyboard input
-    gtk_widget_grab_focus(entryRecipientMail);
-    //gtk_widget_set_size_request(frameRecipientMail, 350, 20);
-    //Margins & Paddings
-        //gtk_widget_set_margin_top(recipientMailFrame, 5);
-        //gtk_widget_set_margin_start(frameRecipientMail, 15);
-        //gtk_widget_set_halign(frameRecipientMail, GTK_ALIGN_START);
+
     //Initialisation of buttonEditMail
     buttonEditMail = gtk_button_new_with_label("📝");
     gtk_grid_attach(GTK_GRID(gridParent),buttonEditMail,3,1,1,1);
