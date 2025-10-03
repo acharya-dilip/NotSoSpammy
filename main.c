@@ -22,7 +22,7 @@ GtkWidget *lockedEntryUserID; //Label where user ID will be displayed
 GtkWidget *frameTokenCount;
 GtkWidget *labelTokenCount;
 GtkWidget *entryRecipientMail;//WIdget for Entry
-GtkWidget *frameRecipientMail; //Widget for frame
+GtkWidget *gridRecipientMailEditButton; //Widget for frame
 GtkWidget *lockedEntrySubjectMail;
 GtkWidget *lockedEntryMail;
 GtkWidget *buttonSendMail;
@@ -100,10 +100,15 @@ static void mainWindow() {
 
     //Implementation of Recipient Email
 
+    gridRecipientMailEditButton = gtk_grid_new();
+    gtk_grid_attach(GTK_GRID(gridParent), gridRecipientMailEditButton, 0, 1, 2, 1);
+    entryRecipientMail = gtk_entry_new();
+    gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
+    gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
     //Initialisation of buttonEditMail
     buttonEditMail = gtk_button_new_with_label("📝");
     gtk_grid_attach(GTK_GRID(gridParent),buttonEditMail,3,1,1,1);
-    gtk_frame_set_child(GTK_FRAME(frameRecipientMail),buttonEditMail);
+    //gtk_frame_set_child(GTK_FRAME(gridRecipientMailEditButton),buttonEditMail);
     //Margin & Paddings
     gtk_widget_set_margin_end(buttonEditMail, 15);
 
