@@ -252,11 +252,20 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_window_set_child(GTK_WINDOW(windowEditMail),gridParentEdit);
     //MARGINS & padding
     gtk_widget_set_halign(gridParentEdit,GTK_ALIGN_CENTER);
+    gtk_widget_set_size_request(gridParentEdit,400,400);
 
     //Initalisation of entryEditMailSubject
     entryEditMailSubject = gtk_entry_new();
-    gtk_grid_attach(GTK_GRID(gridParentEdit),entryEditMailSubject, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(gridParentEdit),entryEditMailSubject, 0, 0, 10, 1);
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryEditMailSubject),"Enter Mail Subject");
+    //Margins & Paddings
+    gtk_widget_set_halign(entryEditMailSubject,GTK_ALIGN_START);
+    gtk_widget_set_margin_end(entryEditMailSubject,10);
+    gtk_widget_set_margin_start(entryEditMailSubject,10);
+    gtk_widget_set_margin_top(entryEditMailSubject,10);
+    gtk_widget_set_size_request(entryEditMailSubject,400,20);
+
+
 
 
 }
