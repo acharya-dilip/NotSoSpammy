@@ -24,7 +24,7 @@ GtkWidget *labelTokenCount;
 GtkWidget *entryRecipientMail;//WIdget for Entry
 GtkWidget *gridRecipientMailEditButton; //Widget for frame
 GtkWidget *lockedEntrySubjectMail;
-GtkWidget *lockedEntryMail;
+GtkWidget *lockedTextViewMail;
 GtkWidget *buttonSendMail;
 GtkWidget *buttonEditMail;
 //VARIABLES FOR LOGIN SCREEN
@@ -134,17 +134,17 @@ static void windowMain() {
 
 
     //Initialization of the lockedEntryMail which is the field where the mail that is to be sent will be displayed
-    lockedEntryMail = gtk_entry_new();
+    lockedTextViewMail = gtk_text_view_new();
     //Locking the entry
-    gtk_editable_set_editable(GTK_EDITABLE(lockedEntryMail),FALSE);
-    gtk_grid_attach(GTK_GRID(gridParent),lockedEntryMail, 0, 3, 1, 1);
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(lockedTextViewMail),FALSE);
+    gtk_grid_attach(GTK_GRID(gridParent),lockedTextViewMail, 0, 3, 1, 1);
     //MARGINS & PADDING
-        gtk_widget_set_size_request(lockedEntryMail, 570, 350);
-        gtk_widget_set_margin_start(lockedEntryMail, 15);
-        gtk_widget_set_margin_top(lockedEntryMail,15);
-        gtk_widget_set_margin_bottom(lockedEntryMail, 15);
-        gtk_widget_set_margin_end(lockedEntryMail,15);
-         gtk_widget_set_halign(lockedEntryMail, GTK_ALIGN_CENTER);
+        gtk_widget_set_size_request(lockedTextViewMail, 570, 350);
+        gtk_widget_set_margin_start(lockedTextViewMail, 15);
+        gtk_widget_set_margin_top(lockedTextViewMail,15);
+        gtk_widget_set_margin_bottom(lockedTextViewMail, 15);
+        gtk_widget_set_margin_end(lockedTextViewMail,15);
+         gtk_widget_set_halign(lockedTextViewMail, GTK_ALIGN_CENTER);
 
 
 
