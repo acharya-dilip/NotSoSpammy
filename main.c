@@ -107,10 +107,10 @@ static void mainWindow() {
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
     //Initialisation of buttonEditMail
     buttonEditMail = gtk_button_new_with_label("📝");
-    gtk_grid_attach(GTK_GRID(gridParent),buttonEditMail,3,1,1,1);
-    //gtk_frame_set_child(GTK_FRAME(gridRecipientMailEditButton),buttonEditMail);
+    gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton),buttonEditMail,1,0,1,1);
     //Margin & Paddings
     gtk_widget_set_margin_end(buttonEditMail, 15);
+
 
 
     //Initialization of entrySubjectMail where the subject of the mail is displayed
