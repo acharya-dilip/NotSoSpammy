@@ -243,7 +243,7 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data) {
 
 
 void editMail(GtkApplication *app, gpointer user_data){
-    windowEditMail = gtk_entry_new();
+    windowEditMail = gtk_window_new();
     gtk_window_set_title(GTK_WINDOW(windowEditMail),"Edit Mail");
     gtk_window_set_default_size(GTK_WINDOW(windowEditMail),400,400);
     gtk_window_present(GTK_WINDOW(windowEditMail));
