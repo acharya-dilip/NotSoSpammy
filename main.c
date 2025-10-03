@@ -241,7 +241,6 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data) {
     GtkWidget *entryEditMailBody;
     GtkWidget *buttonConfirmEdit;
 
-
 void editMail(GtkApplication *app, gpointer user_data){
     windowEditMail = gtk_window_new();
     gtk_window_set_title(GTK_WINDOW(windowEditMail),"Edit Mail");
@@ -251,17 +250,16 @@ void editMail(GtkApplication *app, gpointer user_data){
    //Initialisiobaton of gridParentEdit i.e. the parent grid for the edit mail window
     gridParentEdit = gtk_grid_new();
     gtk_window_set_child(GTK_WINDOW(windowEditMail),gridParentEdit);
-
     //MARGINS & padding
     gtk_widget_set_halign(gridParentEdit,GTK_ALIGN_CENTER);
 
-
-
+    //Initalisation of entryEditMailSubject
+    entryEditMailSubject = gtk_entry_new();
+    gtk_grid_attach(GTK_GRID(gridParentEdit),entryEditMailSubject, 0, 0, 1, 1);
+    gtk_entry_set_placeholder_text(GTK_ENTRY(entryEditMailSubject),"Enter Mail Subject");
 
 
 }
-
-
 
 
 int main(int argc, char **argv) {
