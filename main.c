@@ -239,7 +239,7 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data) {
     GtkWidget *gridParentEdit;
     GtkWidget *entryEditMailSubject;
     GtkWidget *textviewEditMailBody;
-    GtkWidget *buttonConfirmEdit;
+    GtkWidget *buttonSubmit;
 
 void editMail(GtkApplication *app, gpointer user_data){
     windowEditMail = gtk_window_new();
@@ -275,6 +275,17 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_widget_set_margin_start(textviewEditMailBody,10);
     gtk_widget_set_margin_top(textviewEditMailBody,10);
     gtk_widget_set_size_request(textviewEditMailBody,-1,300);
+
+    //Initialisation of buttonSubmit to submit your changes
+    buttonSubmit=gtk_button_new_with_label("Submit");
+    gtk_grid_attach(GTK_GRID(gridParentEdit),buttonSubmit,0,11,1,1);
+
+    //Margieans and Peddings
+    gtk_widget_set_margin_start(buttonSubmit,10);
+    //gtk_widget_set_margin_end(buttonSubmit,10);
+    gtk_widget_set_margin_top(buttonSubmit,10);
+    gtk_widget_set_margin_bottom(buttonSubmit,10);
+    gtk_widget_set_halign(buttonSubmit,GTK_ALIGN_START);
 
 
 
