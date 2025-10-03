@@ -111,9 +111,11 @@ static void windowMain() {
     gtk_widget_set_size_request(entryRecipientMail, 350, 20);
     gtk_widget_set_halign(entryRecipientMail, GTK_ALIGN_START);
     gtk_widget_set_margin_start(entryRecipientMail, 15);
+
     //Initialisation of buttonEditMail
     buttonEditMail = gtk_button_new_with_label("📝");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton),buttonEditMail,1,0,1,1);
+    g_signal_connect(buttonEditMail,"clicked",G_CALLBACK(editMail),NULL);
     //Margin & Paddings
     gtk_widget_set_margin_end(buttonEditMail, 15);
     gtk_widget_set_halign(buttonEditMail, GTK_ALIGN_END);
