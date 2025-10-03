@@ -2,7 +2,7 @@
 #include<gtk/gtk.h>
 
 void checkLogin(GtkApplication *app,gpointer user_data);
-static void mainWindow();
+static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 
@@ -36,7 +36,7 @@ GtkWidget *entryPassword;
 GtkWidget *labelPassword;
 GtkWidget *buttonLogin;
 
-static void mainWindow() {
+static void windowMain() {
 
 
 
@@ -225,7 +225,7 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
     if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),gmail)==0 &&
         strcmp(gtk_editable_get_text(GTK_EDITABLE(entryPassword)),"admin") == 0) {
         gtk_widget_set_visible(windowLoginScreen,FALSE);
-        mainWindow();
+        windowMain();
     }
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
