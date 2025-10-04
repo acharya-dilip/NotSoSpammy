@@ -231,6 +231,15 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
     char pwd[50];
     strcpy(pwd,gtk_editable_get_text(GTK_EDITABLE(entryPassword)));
 
+    //Initalise Curl for the credential authentication
+    CURL *curl;
+    CURLcode res;
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl= curl_easy_init();
+
+
+
+
 
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
