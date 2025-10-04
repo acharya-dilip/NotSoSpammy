@@ -7,7 +7,7 @@ static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 
-extern char gmail[50];
+    char gmail[50];
 extern int tokenCount = 69;
 
 //Size variables for userID and recipient mail
@@ -236,11 +236,32 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
     CURLcode res;
     curl_global_init(CURL_GLOBAL_DEFAULT);
     curl= curl_easy_init();
+    if (curl) {
+        //connecting to the smtp server of gmail
+        curl_easy_setopt(curl,CURLOPT_URL, "smtp://smtp.gmail.com:587");
+        curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
 
+        //Givin Login credential for authentication
+        curl_easy_setopt(curl,CURLOPT_USERNAME,gmail);
+        curl_easy_setopt(curl,CURLOPT_PASSWORD,pwd);
 
+        //IGNORE other stuff except the handshake
+        curl_easy_setopt(curl,CURLOPT_NOBODY,1L);
+        curl_easy_setopt(curl,CURLOPT_HEADER,0L);
+        curl_easy_setopt(curl,CURLOPT_UPLOAD,0L);
+        curl_easy_setopt(curl,CURLOPT_READFUNCTION, NULL);
 
+        //execute the handshaking process
+        res=curl_easy_perform(curl);
 
+        //CHECK IF THE PROCESS EXECUTED CORRECTLY and direct to the main window
+        if (res==CURLE_OK){
+            gtk_widget_set_visible(windowLoginScreen,FALSE);
+            windowMain();
+        }
 
+    }
+    curl_global_cleanup();
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
 void closeLoginWindow(GtkApplication *app, gpointer user_data) {
