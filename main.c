@@ -11,6 +11,8 @@ void fetchSubject();
 size_t write_callback_subject(void *ptr, size_t size, size_t nmemb, void *userdata);
 void fetchBody();
 size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata);
+void updateSubject();
+void updateBody();
     char gmail[50];
 extern int tokenCount = 69;
 
@@ -399,14 +401,26 @@ size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata)
 
 void updateMail() {
     if (tokenCount>=100) {
-        //CLAUSE TO UPDATE THE MAIL SUBJECT AND BODY
-        CURL *curl = curl_easy_init();
-        if (curl) {
-
-        }
+        tokenCount-=100;
+        updateSubject();
+        updateBody();
     }
+
+}
+void updateSubject() {
+    CURL *curl=curl_easy_init();
+
+    if (curl) {
+        curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbzsjXDbI0Mod9sBtQZjMYhnzrvJzSAd6mYtHxNxf2nVvhM9eZ_WLQ2AdfT8mio-mm0/exec");
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,gtk_editable_get_text(GTK_EDITABLE(entryEditMailSubject)));
+        curl_easy_perform(curl);
+    }
+    curl_easy_cleanup(curl);
 }
 
+void updateBody() {
+
+}
 
 
 int main(int argc, char **argv) {
