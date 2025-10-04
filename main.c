@@ -13,6 +13,7 @@ void fetchBody();
 size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata);
 void updateSubject();
 void updateBody();
+void updateTokenCount();
     char gmail[50];
 extern int tokenCount = 1000;
 
@@ -22,6 +23,7 @@ extern int tokenCount = 1000;
 //Size variables for userID and recipient mail
 extern int varWidth=0;
 extern int varHeight=0;
+
 
 
 //Declaring Necessary Items for the MAIN PROGRAM GUI
@@ -45,6 +47,11 @@ GtkWidget *labelGmail;
 GtkWidget *entryPassword;
 GtkWidget *labelPassword;
 GtkWidget *buttonLogin;
+char TokenCount[50];
+void updateTokenCount() {
+    snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
+    gtk_label_set_text(GTK_LABEL(labelTokenCount),TokenCount);
+}
 
 static void windowMain() {
 
@@ -95,8 +102,9 @@ static void windowMain() {
 
 
     //Implementation of Token Count
-    char TokenCount[50];
-    snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
+    // char TokenCount[50];
+    // snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
+    updateTokenCount();
     labelTokenCount = gtk_label_new (TokenCount);
     frameTokenCount = gtk_frame_new(NULL);
     gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
@@ -402,6 +410,7 @@ size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata)
 void updateMail() {
     if (tokenCount>=100) {
         tokenCount=tokenCount-100;
+        updateTokenCount();
         updateSubject();
         //updateBody();
     }
