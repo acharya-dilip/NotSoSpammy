@@ -419,7 +419,14 @@ void updateSubject() {
 }
 
 void updateBody() {
+    CURL *curl=curl_easy_init();
 
+    if (curl) {
+        curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbxnbf7d4hWBRtrjQIxqy6yhQivW_74AXxBWvIE08whazoSUWVDDna_u82Cu38ZovWKY/exec");
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,gtk_editable_get_text(GTK_EDITABLE(textviewEditMailBody)));
+        curl_easy_perform(curl);
+    }
+    curl_easy_cleanup(curl);
 }
 
 
