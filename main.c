@@ -8,7 +8,8 @@ void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 void updateMail();
 void fetchSubject();
-void fetchBody();
+size_t write_callback_subject(void *ptr, size_t size, size_t nmemb, void *userdata);
+void fetchBody(){}
 
     char gmail[50];
 extern int tokenCount = 69;
@@ -248,7 +249,6 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
     //Initalise Curl for the credential authentication
     CURL *curl;
     CURLcode res;
-    curl_global_init(CURL_GLOBAL_DEFAULT);
     curl= curl_easy_init();
     if (curl) {
         //connecting to the smtp server of gmail
@@ -275,7 +275,7 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
         }
 
     }
-    curl_global_cleanup();
+
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
 void closeLoginWindow(GtkApplication *app, gpointer user_data) {
@@ -354,12 +354,30 @@ void editMail(GtkApplication *app, gpointer user_data){
 }
 
 
-
+void fetchSubject() {
+    CURL *curl=curl_easy_init();
+    if (!curl) return;
+    if (curl) {
+        curl_easy_setopt(curl,CURLOPT_URL,"https://docs.google.com/spreadsheets/d/e/2PACX-1vTflJgUIQUMdTr5FpK4gVirLpFFpqmi4oaI4Znp5QsCcLmUNWvjYHXPX7BxNhCxttiqRcJxl1drPFkX/pub?output=csv");
+        //curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+        curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,write_callback_subject);
+        curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+    }
+}
+size_t write_callback_subject(void *ptr, size_t size, size_t nmemb, void *userdata) {
+    size_t total = size * nmemb;
+    if(total >= 1024) total = 1024 - 1;
+    memcpy(GMAIL_SUBJECT, ptr, total);
+    GMAIL_SUBJECT[total] = '\0';  // null-terminate
+    return total;
+}
 
 void updateMail() {
     if (tokenCount>=100) {
         //CLAUSE TO UPDATE THE MAIL SUBJECT AND BODY
-        CURL *curl = curl_easy_init;
+        CURL *curl = curl_easy_init();
         if (curl) {
 
         }
@@ -371,7 +389,6 @@ void updateMail() {
 int main(int argc, char **argv) {
     GtkApplication *app;
     int status;
-
     app= gtk_application_new ("org.gtk.example", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
     status = g_application_run (G_APPLICATION (app), argc, argv);
