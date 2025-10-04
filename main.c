@@ -6,6 +6,7 @@ void checkLogin(GtkApplication *app,gpointer user_data);
 static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
+void updateMail();
 
     char gmail[50];
 extern int tokenCount = 69;
@@ -316,6 +317,7 @@ void editMail(GtkApplication *app, gpointer user_data){
     //Initialisation of buttonSubmit to submit your changes
     buttonSubmit=gtk_button_new_with_label("Submit");
     gtk_grid_attach(GTK_GRID(gridParentEdit),buttonSubmit,0,11,1,1);
+    g_signal_connect(buttonSubmit,"clicked",G_CALLBACK(updateEmail),NULL);
 
     //Margieans and Peddings
     gtk_widget_set_margin_start(buttonSubmit,10);
@@ -338,11 +340,14 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_widget_set_size_request(frameTokenCount, 30, 30);
     gtk_widget_set_valign(frameTokenCount,GTK_ALIGN_END);
 
-
-
-
-
 }
+
+void updateMail() {
+    if (tokenCount>=100) {
+        //CLAUSE TO UPDATE THE MAIL SUBJECT AND BODY
+    }
+}
+
 
 
 int main(int argc, char **argv) {
