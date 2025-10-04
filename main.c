@@ -135,9 +135,9 @@ static void windowMain() {
     gtk_editable_set_editable(GTK_EDITABLE(lockedEntrySubjectMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedEntrySubjectMail,0,2,1,1);
     fetchSubject();
-    char labelLockedEntrySubjectMail [1024];
-    snprintf(labelLockedEntrySubjectMail, sizeof(labelLockedEntrySubjectMail),"%s",GMAIL_SUBJECT);
-    gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),labelLockedEntrySubjectMail);
+    char labelValueLockedEntrySubjectMail [1024];
+    snprintf(labelValueLockedEntrySubjectMail, sizeof(labelValueLockedEntrySubjectMail),"%s",GMAIL_SUBJECT);
+    gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),labelValueLockedEntrySubjectMail);
     //Margins & Padding
         gtk_widget_set_margin_start(lockedEntrySubjectMail, 15);
         gtk_widget_set_margin_top(lockedEntrySubjectMail,15);
@@ -151,11 +151,14 @@ static void windowMain() {
     gtk_text_view_set_editable(GTK_TEXT_VIEW(lockedTextViewMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedTextViewMail, 0, 3, 1, 1);
     fetchBody();
-    char labelLockedTextViewBodyMail [1024];
-    snprintf(labelLockedTextViewBodyMail, sizeof(labelLockedTextViewBodyMail),"%s",GMAIL_BODY);
-    gtk_editable_set_text(GTK_EDITABLE(lockedTextViewMail),labelLockedTextViewBodyMail);
+    // char labelValueTextViewBodyMail [4096];
+    // snprintf(labelValueTextViewBodyMail, sizeof(labelValueTextViewBodyMail),"%s",GMAIL_BODY);
+    GtkTextBuffer *lockedTextViewMailBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(lockedTextViewMail));
+    gtk_text_buffer_set_text(lockedTextViewMailBuffer,GMAIL_BODY,-1);
+
+    //gtk_editable_set_text(GTK_EDITABLE(lockedTextViewMail),labelValueTextViewBodyMail);
     //MARGINS & PADDING
-        gtk_widget_set_size_request(lockedTextViewMail, 570, 350);
+        gtk_widget_set_size_request(lockedTextViewMail,570,350);
         gtk_widget_set_margin_start(lockedTextViewMail, 15);
         gtk_widget_set_margin_top(lockedTextViewMail,15);
         gtk_widget_set_margin_bottom(lockedTextViewMail, 15);
