@@ -7,11 +7,13 @@ static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 void updateMail();
+void fetchMail();
 
     char gmail[50];
 extern int tokenCount = 69;
-    char GMAIL_BODY[1024];
-    char GMAIL_SUBJECT[1024];
+
+    char GMAIL_BODY [4096];
+    char GMAIL_SUBJECT [1024];
 
 //Size variables for userID and recipient mail
 extern int varWidth=0;
@@ -130,6 +132,9 @@ static void windowMain() {
     //Locking the entry
     gtk_editable_set_editable(GTK_EDITABLE(lockedEntrySubjectMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedEntrySubjectMail,0,2,1,1);
+    char labelLockedEntrySubjectMail [1024];
+    snprintf(labelLockedEntrySubjectMail, sizeof(labelLockedEntrySubjectMail),"%s",GMAIL_SUBJECT);
+    gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),labelLockedEntrySubjectMail);
     //Margins & Padding
         gtk_widget_set_margin_start(lockedEntrySubjectMail, 15);
         gtk_widget_set_margin_top(lockedEntrySubjectMail,15);
@@ -142,6 +147,9 @@ static void windowMain() {
     //Locking the entry
     gtk_text_view_set_editable(GTK_TEXT_VIEW(lockedTextViewMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedTextViewMail, 0, 3, 1, 1);
+    char labelLockedTextViewBodyMail [1024];
+    snprintf(labelLockedTextViewBodyMail, sizeof(labelLockedTextViewBodyMail),"%s",GMAIL_BODY);
+    gtk_editable_set_text(GTK_EDITABLE(lockedTextViewMail),labelLockedTextViewBodyMail);
     //MARGINS & PADDING
         gtk_widget_set_size_request(lockedTextViewMail, 570, 350);
         gtk_widget_set_margin_start(lockedTextViewMail, 15);
@@ -317,7 +325,7 @@ void editMail(GtkApplication *app, gpointer user_data){
     //Initialisation of buttonSubmit to submit your changes
     buttonSubmit=gtk_button_new_with_label("Submit");
     gtk_grid_attach(GTK_GRID(gridParentEdit),buttonSubmit,0,11,1,1);
-    g_signal_connect(buttonSubmit,"clicked",G_CALLBACK(updateEmail),NULL);
+    g_signal_connect(buttonSubmit,"clicked",G_CALLBACK(updateMail),NULL);
 
     //Margieans and Peddings
     gtk_widget_set_margin_start(buttonSubmit,10);
@@ -342,9 +350,16 @@ void editMail(GtkApplication *app, gpointer user_data){
 
 }
 
+
+
+
 void updateMail() {
     if (tokenCount>=100) {
         //CLAUSE TO UPDATE THE MAIL SUBJECT AND BODY
+        CURL *curl = curl_easy_init;
+        if (curl) {
+
+        }
     }
 }
 
