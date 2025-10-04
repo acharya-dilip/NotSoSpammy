@@ -409,10 +409,11 @@ size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata)
 
 void updateMail() {
     if (tokenCount>=100) {
-        tokenCount=tokenCount-100;
-        updateTokenCount();
+
         updateSubject();
         //updateBody();
+        tokenCount=tokenCount-100;
+        updateTokenCount();
     }
 
 }
@@ -423,7 +424,7 @@ void updateSubject() {
 
     if(curl){
         curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbzsjXDbI0Mod9sBtQZjMYhnzrvJzSAd6mYtHxNxf2nVvhM9eZ_WLQ2AdfT8mio-mm0/exec");
-        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,gtk_editable_get_text(GTK_EDITABLE(entryEditMailSubject)));
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,updateSubject);
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
 
         curl_easy_perform(curl);
@@ -436,7 +437,7 @@ void updateBody() {
 
     if (curl) {
         curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbxnbf7d4hWBRtrjQIxqy6yhQivW_74AXxBWvIE08whazoSUWVDDna_u82Cu38ZovWKY/exec");
-        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,gtk_editable_get_text(GTK_EDITABLE(textviewEditMailBody)));
+        curl_easy_setopt(curl,CURLOPT_POST,gtk_editable_get_text(GTK_EDITABLE(textviewEditMailBody)));
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
 
         curl_easy_perform(curl);
