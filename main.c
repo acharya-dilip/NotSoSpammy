@@ -9,8 +9,8 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data);
 void updateMail();
 void fetchSubject();
 size_t write_callback_subject(void *ptr, size_t size, size_t nmemb, void *userdata);
-void fetchBody(){}
-
+void fetchBody();
+size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata);
     char gmail[50];
 extern int tokenCount = 69;
 
@@ -368,9 +368,29 @@ void fetchSubject() {
 }
 size_t write_callback_subject(void *ptr, size_t size, size_t nmemb, void *userdata) {
     size_t total = size * nmemb;
-    if(total >= 1024) total = 1024 - 1;
+    if(total >= 1024) total = 1023;
     memcpy(GMAIL_SUBJECT, ptr, total);
-    GMAIL_SUBJECT[total] = '\0';  // null-terminate
+    GMAIL_SUBJECT[total] = '\0';
+    return total;
+}
+
+void fetchBody() {
+    CURL *curl = curl_easy_init();
+    if (!curl) return;
+    if (curl) {
+        curl_easy_setopt(curl,CURLOPT_URL,"https://docs.google.com/spreadsheets/d/e/2PACX-1vR5VTdaCY-EWBUStZ5Ram5cqWWG3oBlorq2crsRV-LJ3wLdh1tjGfKiGyGQ_SJqzBH5-2iHs-f1q6TY/pub?output=csv");
+        curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,write_callback_body);
+        curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+
+    }
+}
+size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata) {
+    size_t total = size *nmemb;
+    if (total >=4096) total = 4095;
+    memcpy(GMAIL_BODY,ptr,total);
+    GMAIL_BODY[total]='\0';
     return total;
 }
 
