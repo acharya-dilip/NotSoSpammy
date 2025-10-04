@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include<gtk/gtk.h>
+#include <curl/curl.h>
 
 void checkLogin(GtkApplication *app,gpointer user_data);
 static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 
-extern char gmail[50]="admin";
+extern char gmail[50];
 extern int tokenCount = 69;
 
 //Size variables for userID and recipient mail
@@ -224,11 +225,13 @@ static void activate (GtkApplication *app,gpointer user_data){
 
 //function to check login
 void checkLogin(GtkApplication *app,gpointer user_data) {
-    if (strcmp(gtk_editable_get_text(GTK_EDITABLE(entryGmail)),gmail)==0 &&
-        strcmp(gtk_editable_get_text(GTK_EDITABLE(entryPassword)),"admin") == 0) {
-        gtk_widget_set_visible(windowLoginScreen,FALSE);
-        windowMain();
-    }
+
+    //OBTAIN THE GMAIL AND PASSWORD
+    strcpy(gmail,gtk_editable_get_text(GTK_EDITABLE(entryGmail)));
+    char pwd[50];
+    strcpy(pwd,gtk_editable_get_text(GTK_EDITABLE(entryPassword)));
+
+
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
 void closeLoginWindow(GtkApplication *app, gpointer user_data) {
