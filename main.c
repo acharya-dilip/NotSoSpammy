@@ -9,6 +9,8 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data);
 
     char gmail[50];
 extern int tokenCount = 69;
+    char GMAIL_BODY[1024];
+    char GMAIL_SUBJECT[1024];
 
 //Size variables for userID and recipient mail
 extern int varWidth=0;
@@ -298,9 +300,11 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_widget_set_margin_top(entryEditMailSubject,10);
     gtk_widget_set_size_request(entryEditMailSubject,400,20);
 
-    //Initialisation of entryEditMailBody
+    //Initialisation of textviewEditMailBody
     textviewEditMailBody = gtk_text_view_new();
     gtk_grid_attach(GTK_GRID(gridParentEdit),textviewEditMailBody, 0, 1, 10, 10);
+    //MAKES IT SO THAT THE TEXT AUTOMATICALLY GOES TO LINE BELOW INSTEAD OF FOREVER
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textviewEditMailBody),TRUE);
     //gtk_entry_set_placeholder_text(GTK_ENTRY(textviewEditMailBody),"Enter Your Mail");
 
     //Margins & PADDINGSSS
