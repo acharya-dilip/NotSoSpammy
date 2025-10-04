@@ -7,7 +7,8 @@ static void windowMain();
 void editMail(GtkApplication *app, gpointer user_data);
 void closeLoginWindow(GtkApplication *app, gpointer user_data);
 void updateMail();
-void fetchMail();
+void fetchSubject();
+void fetchBody();
 
     char gmail[50];
 extern int tokenCount = 69;
@@ -132,6 +133,7 @@ static void windowMain() {
     //Locking the entry
     gtk_editable_set_editable(GTK_EDITABLE(lockedEntrySubjectMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedEntrySubjectMail,0,2,1,1);
+    fetchSubject();
     char labelLockedEntrySubjectMail [1024];
     snprintf(labelLockedEntrySubjectMail, sizeof(labelLockedEntrySubjectMail),"%s",GMAIL_SUBJECT);
     gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),labelLockedEntrySubjectMail);
@@ -147,6 +149,7 @@ static void windowMain() {
     //Locking the entry
     gtk_text_view_set_editable(GTK_TEXT_VIEW(lockedTextViewMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedTextViewMail, 0, 3, 1, 1);
+    fetchBody();
     char labelLockedTextViewBodyMail [1024];
     snprintf(labelLockedTextViewBodyMail, sizeof(labelLockedTextViewBodyMail),"%s",GMAIL_BODY);
     gtk_editable_set_text(GTK_EDITABLE(lockedTextViewMail),labelLockedTextViewBodyMail);
