@@ -17,6 +17,7 @@ void updateBody();
 void fetchTokenCount();
 void updateTokenCount();
 void sendMail();
+void addNewUser();
 
 static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
     char gmail[50];
@@ -533,17 +534,33 @@ void fetchTokenCount() {
         curl_easy_setopt(curl,CURLOPT_WRITEDATA,respBuffer);
 
         curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
 
         //Read the token count and store it in a variable
         char *p = strstr(respBuffer, "\"tokenCount\":");
         if(p) sscanf(p, "\"tokenCount\":%d", &tokenCount);
-
-        curl_easy_cleanup(curl);
-
-
+        else {
+            addNewUser();
+        }
 
     }
 }
+
+void addNewUser() {
+    CURL *curl=curl_easy_init;
+    if (!curl) return 0;
+    if (curl) {
+        char bufferPost[100];
+        snprintf(bufferPost,sizeof(bufferPost),"userID=%s&tokenCount=0",gmail);
+        curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbw3fDsSkHqSMvDG_hjN6wtc124gG906BFu-M1hZE7FP4uHsBEKbWZ90iVnVWn5EOSA/exec");
+        curl_easy_setopt(curl,CURLOPT_POST,1L);
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,bufferPost);
+
+        curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+    }
+}
+
 
 void updateTokenCount() {
 
