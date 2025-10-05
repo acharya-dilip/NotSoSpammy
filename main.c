@@ -109,15 +109,15 @@ static void windowMain() {
     //Implementation of Token Count
     // char TokenCount[50];
     // snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
-    updateTokenCount();
-    labelTokenCount = gtk_label_new (TokenCount);
-    frameTokenCount = gtk_frame_new(NULL);
-    gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
-    //gtk_frame_set_label_widget(GTK_FRAME(frameTokenCount), labelTokenCount);
-    gtk_grid_attach(GTK_GRID(gridUserIDToken), frameTokenCount, 3, 0, 1, 1);
-    //MARGINS & Paddings
-    gtk_widget_set_size_request(frameTokenCount, 50, 30);
-    gtk_widget_set_valign(frameTokenCount,GTK_ALIGN_CENTER);
+
+    // labelTokenCount = gtk_label_new (TokenCount);
+    // frameTokenCount = gtk_frame_new(NULL);
+    // gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
+    // //gtk_frame_set_label_widget(GTK_FRAME(frameTokenCount), labelTokenCount);
+    // gtk_grid_attach(GTK_GRID(gridUserIDToken), frameTokenCount, 3, 0, 1, 1);
+    // //MARGINS & Paddings
+    // gtk_widget_set_size_request(frameTokenCount, 50, 30);
+    // gtk_widget_set_valign(frameTokenCount,GTK_ALIGN_CENTER);
 
 
 
@@ -299,7 +299,7 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
 void closeLoginWindow(GtkApplication *app, gpointer user_data) {
-    gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
+    //gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
 }
 //Widgets needed for the mail editing window
     GtkWidget *windowEditMail;
@@ -421,6 +421,7 @@ void updateMail() {
         updateBody();
         tokenCount=tokenCount-100;
         updateTokenCount();
+
     }
 
 }
@@ -617,6 +618,7 @@ void updateTokenCount() {
 
     snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
     gtk_label_set_text(GTK_LABEL(labelTokenCount),TokenCount);
+
 }
 
 
