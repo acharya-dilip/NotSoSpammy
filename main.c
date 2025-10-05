@@ -19,10 +19,9 @@ void updateTokenCount();
 void sendMail();
 void addNewUser();
 
-static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
     char gmail[50];
     char pwd[50];
-    char recipientMail;
+    char recipientMail[50];
 
 extern int tokenCount = 1000;
 
@@ -132,7 +131,7 @@ static void windowMain() {
     entryRecipientMail = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
-    //recipientMail = gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail));
+    //strcpy(recipientMail, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
     //Margins & paddings
     gtk_widget_set_size_request(entryRecipientMail, 350, 20);
     gtk_widget_set_halign(entryRecipientMail, GTK_ALIGN_START);
@@ -466,69 +465,110 @@ void updateBody() {
     }
     curl_easy_cleanup(curl);
 }
-//Variables for sendMail
-static const char *payload_ptr;
-static size_t payload_left;
 
 void sendMail() {
-    //Formatting mail correctly
-    char mailPayload[5000];
-    snprintf(mailPayload,sizeof(mailPayload),
-        "From:%s \r\n"
-        "To:%s \r\n"
-        "Subject: %s \r\n"
-        "\r\n"
-        "%s \r\n",
-        gmail,gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)),GMAIL_SUBJECT,GMAIL_BODY);
-    //Pointer to track progress
-    payload_ptr=mailPayload;
-    payload_left = strlen(mailPayload);
-    //Initialising Curl
-    CURL *curl=curl_easy_init();
-    CURLcode res;
-    if (!curl) return;
-    if (curl) {
-        //Credentials for auth
-        curl_easy_setopt(curl,CURLOPT_USERNAME,gmail);
-        curl_easy_setopt(curl,CURLOPT_PASSWORD,pwd);
-        //Connection
-        curl_easy_setopt(curl,CURLOPT_URL, "smtp://smtp.gmail.com:587");
-        curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
-        //sending mail
-        curl_easy_setopt(curl,CURLOPT_MAIL_FROM,gmail);
-        //define the recipient mail correctly
+    CURL *curl;
+    CURLcode res = CURLE_OK;
+
+    // const char *email = gmail;
+    // const char *app_password = pwd;
+    // const char *recipient = recipientMail;
+
+    // Write email content to temp file
+    FILE *fp = fopen("email.txt", "w");
+    if (!fp) return ;
+    fprintf(fp,
+            "To: %s\r\n"
+            "From: %s\r\n"
+            "Subject: Test Email\r\n"
+            "\r\n"
+            "Hello!\nThis is a test email. hope this works\nRegards.\n",
+            recipientMail, gmail);
+    fclose(fp);
+
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
+
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
+        curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
+        //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+
+        curl_easy_setopt(curl, CURLOPT_USERNAME, gmail);
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, pwd);
+        printf("pwd is %s",pwd);
+
+        curl_easy_setopt(curl, CURLOPT_MAIL_FROM, gmail);
+        printf("mail is %s",gmail);
         struct curl_slist *recipients = NULL;
         recipients = curl_slist_append(recipients, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
-        curl_easy_setopt(curl,CURLOPT_MAIL_RCPT,recipients);
-        //Idk tracking progress iguess and sending mail
-       // curl_easy_setopt(curl, CURLOPT_READFUNCTION, mailPayload);
-        curl_easy_setopt(curl, CURLOPT_READDATA, payload_source);
+        printf("recipient mail is %s",gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
+        curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+
+        // Open the file for libcurl to read
+        FILE *upload_fp = fopen("email.txt", "r");
+        curl_easy_setopt(curl, CURLOPT_READDATA, upload_fp);
         curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
-    //Performing the actual curl
-    res = curl_easy_perform(curl);
-    curl_slist_free_all(recipients);
+        res = curl_easy_perform(curl);
 
+        if(res != CURLE_OK)
+            fprintf(stderr, "❌ curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        else
+            printf("✅ Email sent successfully!\n");
 
-        if (res==CURLE_OK) {
-            tokenCount +=10;
-        }
-
+        fclose(upload_fp);
+        curl_slist_free_all(recipients);
         curl_easy_cleanup(curl);
-
     }
-}
-static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp) {
-    size_t buffer_size = size * nmemb;
-    if (payload_left == 0) return 0;
 
-    size_t copy_size = (payload_left < buffer_size) ? payload_left : buffer_size;
-    memcpy(ptr, payload_ptr, copy_size);
-    payload_ptr += copy_size;
-    payload_left -= copy_size;
+    curl_global_cleanup();
 
-    return copy_size;
 }
+
+// void sendMail() {
+//     //Writing the mail in a file
+//     FILE *fp = fopen("email.txt", "w");
+//     if (!fp) return;
+//     fprintf(fp,
+//             "To: %s\r\n"
+//             "From: %s\r\n"
+//             "Subject: %s\r\n"
+//             "\r\n"
+//             "%s\n",
+//             recipientMail, gmail,GMAIL_SUBJECT,GMAIL_BODY);
+//     fclose(fp);
+//
+//     //STARTING CURL
+//     CURL *curl = curl_easy_init();
+//     if (!curl) return ;
+//     if (curl) {
+//         curl_easy_setopt(curl,CURLOPT_URL,"smtp://smtp.gmail.com:587");
+//         curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+//
+//         curl_easy_setopt(curl, CURLOPT_USERNAME, gmail);
+//         curl_easy_setopt(curl, CURLOPT_PASSWORD, pwd);
+//
+//         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, gmail);
+//         struct curl_slist *recipients = NULL;
+//         recipients = curl_slist_append(recipients, recipientMail);
+//         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+//
+//         // Open the file for libcurl to read
+//         FILE *upload_fp = fopen("email.txt", "r");
+//         curl_easy_setopt(curl, CURLOPT_READDATA, upload_fp);
+//         curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+//
+//             curl_easy_perform(curl);
+//             fclose(upload_fp);
+//             curl_slist_free_all(recipients);
+//             curl_easy_cleanup(curl);
+//
+//     }
+// }
+
+
+
 
 
 void fetchTokenCount() {
