@@ -14,6 +14,7 @@ size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata)
 void updateSubject();
 void updateBody();
 void updateTokenCount();
+void sendMail();
     char gmail[50];
 extern int tokenCount = 1000;
 
@@ -459,6 +460,12 @@ void updateBody() {
     curl_easy_cleanup(curl);
 }
 
+
+void sendMail() {
+    CURL *curl=curl_easy_init();
+    if (!curl) return;
+
+}
 
 int main(int argc, char **argv) {
     GtkApplication *app;
