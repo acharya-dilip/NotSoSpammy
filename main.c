@@ -480,10 +480,10 @@ void sendMail() {
     fprintf(fp,
             "To: %s\r\n"
             "From: %s\r\n"
-            "Subject: Test Email\r\n"
+            "Subject: %s\r\n"
             "\r\n"
-            "Hello!\nThis is a test email. hope this works\nRegards.\n",
-            recipientMail, gmail);
+            "%s\n",
+            recipientMail, gmail,GMAIL_SUBJECT,GMAIL_BODY);
     fclose(fp);
 
     curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -496,13 +496,13 @@ void sendMail() {
 
         curl_easy_setopt(curl, CURLOPT_USERNAME, gmail);
         curl_easy_setopt(curl, CURLOPT_PASSWORD, pwd);
-        printf("pwd is %s",pwd);
+        //printf("pwd is %s",pwd);
 
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, gmail);
-        printf("mail is %s",gmail);
+        //printf("mail is %s",gmail);
         struct curl_slist *recipients = NULL;
         recipients = curl_slist_append(recipients, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
-        printf("recipient mail is %s",gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
+        //printf("recipient mail is %s",gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
         // Open the file for libcurl to read
@@ -523,6 +523,7 @@ void sendMail() {
     }
 
     curl_global_cleanup();
+    gtk_editable_set_text(GTK_EDITABLE(entryRecipientMail),"");
 
 }
 
