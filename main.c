@@ -493,6 +493,7 @@ void sendMail() {
         res = curl_easy_perform(curl);
         if (res==CURLE_OK) {
             tokenCount+=10;
+            updateTokenCount();
         }
         fclose(upload_fp);
         curl_slist_free_all(recipients);
