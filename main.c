@@ -502,7 +502,12 @@ void sendMail() {
 
 
 void fetchTokenCount() {
-
+    //Using File handling to fetch the token count from necessity.txt
+    FILE *file = fopen("necessity.txt","r");
+    if (file) {
+        fscanf(file,"%d",&tokenCount);
+        fclose(file);
+    }
 }
 
 
@@ -514,7 +519,6 @@ void updateTokenCount() {
         fprintf(file,"%d", tokenCount); //writin the value of token count to necessity.txt
         fclose(file);
     }
-
     snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
     gtk_label_set_text(GTK_LABEL(labelTokenCount),TokenCount);
 
