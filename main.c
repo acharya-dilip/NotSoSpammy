@@ -23,7 +23,7 @@ void addNewUser();
     char pwd[50];
     char recipientMail[50];
 
-extern int tokenCount = 1000;
+     int tokenCount;
 
     char GMAIL_BODY [4096];
     char GMAIL_SUBJECT [1024];
@@ -60,7 +60,7 @@ char TokenCount[50];
 
 static void windowMain() {
 
-
+    //fetchTokenCount();
 
     //Main Window Init and Customization
     NotSoSpammyWindow = gtk_window_new ();
@@ -472,7 +472,7 @@ void updateBody() {
     //Update the text view for body in the main window to show the same text after updating
     gtk_text_view_set_buffer(GTK_TEXT_VIEW(lockedTextViewMail),gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewEditMailBody)));
     //clear the text view buffer after editing
-    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textviewEditMailBody),"");
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textviewEditMailBody),NULL);
 }
 
 void sendMail() {
@@ -582,43 +582,11 @@ void sendMail() {
 
 
 void fetchTokenCount() {
-    CURL *curl = curl_easy_init();
-    if (!curl) return;
-    if (curl) {
-        char respBuffer[2000]={0};
-        char appwritePayload[500];
-        snprintf(appwritePayload, sizeof(appwritePayload),"https://script.google.com/macros/s/AKfycbw3fDsSkHqSMvDG_hjN6wtc124gG906BFu-M1hZE7FP4uHsBEKbWZ90iVnVWn5EOSA/exec?userID=%s",gmail);
-        //Fetching data from the google sheet
-        curl_easy_setopt(curl,CURLOPT_URL,appwritePayload);
-        curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,fwrite);
-        curl_easy_setopt(curl,CURLOPT_WRITEDATA,respBuffer);
 
-        curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-
-        //Read the token count and store it in a variable
-        char *p = strstr(respBuffer, "\"tokenCount\":");
-        if(p) sscanf(p, "\"tokenCount\":%d", &tokenCount);
-        else {
-            addNewUser();
-        }
-
-    }
 }
 
 void addNewUser() {
-    CURL *curl=curl_easy_init;
-    if (!curl) return;
-    if (curl) {
-        char bufferPost[100];
-        snprintf(bufferPost,sizeof(bufferPost),"userID=%s&tokenCount=0",gmail);
-        curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbw3fDsSkHqSMvDG_hjN6wtc124gG906BFu-M1hZE7FP4uHsBEKbWZ90iVnVWn5EOSA/exec");
-        curl_easy_setopt(curl,CURLOPT_POST,1L);
-        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,bufferPost);
 
-        curl_easy_perform(curl);
-        curl_easy_cleanup(curl);
-    }
 }
 
 
