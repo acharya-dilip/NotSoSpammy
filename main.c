@@ -299,7 +299,7 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
 }
 //FUNCTION TO CHECK IF MAIN PROGRAM IS DELETED TO CLOSE THE PROGRAM
 void closeLoginWindow(GtkApplication *app, gpointer user_data) {
-    //gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
+    gtk_window_destroy(GTK_WINDOW(windowLoginScreen));
 }
 //Widgets needed for the mail editing window
     GtkWidget *windowEditMail;
@@ -438,6 +438,7 @@ void updateSubject() {
         curl_easy_perform(curl);
     }
     curl_easy_cleanup(curl);
+    gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),gtk_editable_get_text(GTK_EDITABLE(entryEditMailSubject)));
 }
 
 void updateBody() {
@@ -465,6 +466,7 @@ void updateBody() {
         curl_easy_perform(curl);
     }
     curl_easy_cleanup(curl);
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(lockedTextViewMail),gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewEditMailBody)));
 }
 
 void sendMail() {
