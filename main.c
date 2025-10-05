@@ -466,7 +466,9 @@ void updateBody() {
     }
     curl_easy_cleanup(curl);
 }
-
+//Variables for sendMail
+static const char *payload_ptr;
+static size_t payload_left;
 
 void sendMail() {
     //Formatting mail correctly
@@ -479,7 +481,8 @@ void sendMail() {
         "%s \r\n",
         gmail,gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)),GMAIL_SUBJECT,GMAIL_BODY);
     //Pointer to track progress
-    char *mailPayload_ptr=mailPayload;
+    payload_ptr=mailPayload;
+    payload_left = strlen(mailPayload);
     //Initialising Curl
     CURL *curl=curl_easy_init();
     CURLcode res;
@@ -493,14 +496,20 @@ void sendMail() {
         curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
         //sending mail
         curl_easy_setopt(curl,CURLOPT_MAIL_FROM,gmail);
-        curl_easy_setopt(curl,CURLOPT_MAIL_RCPT,recipientMail);
+        //define the recipient mail correctly
+        struct curl_slist *recipients = NULL;
+        recipients = curl_slist_append(recipients, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
+        curl_easy_setopt(curl,CURLOPT_MAIL_RCPT,recipients);
         //Idk tracking progress iguess and sending mail
-        curl_easy_setopt(curl, CURLOPT_READFUNCTION, mailPayload);
-        curl_easy_setopt(curl, CURLOPT_READDATA, &mailPayload_ptr);
+       // curl_easy_setopt(curl, CURLOPT_READFUNCTION, mailPayload);
+        curl_easy_setopt(curl, CURLOPT_READDATA, payload_source);
         curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
     //Performing the actual curl
     res = curl_easy_perform(curl);
+    curl_slist_free_all(recipients);
+
+
         if (res==CURLE_OK) {
             tokenCount +=10;
         }
@@ -510,14 +519,15 @@ void sendMail() {
     }
 }
 static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp) {
-    char **p = (char **)userp;       // pointer to the current position in the email
-    size_t max = size * nmemb;
-    size_t len = strlen(*p);
-    if (len == 0) return 0;          // done sending
-    size_t to_copy = (len < max) ? len : max;
-    memcpy(ptr, *p, to_copy);
-    *p += to_copy;                   // move pointer forward
-    return to_copy;
+    size_t buffer_size = size * nmemb;
+    if (payload_left == 0) return 0;
+
+    size_t copy_size = (payload_left < buffer_size) ? payload_left : buffer_size;
+    memcpy(ptr, payload_ptr, copy_size);
+    payload_ptr += copy_size;
+    payload_left -= copy_size;
+
+    return copy_size;
 }
 
 
@@ -548,7 +558,7 @@ void fetchTokenCount() {
 
 void addNewUser() {
     CURL *curl=curl_easy_init;
-    if (!curl) return 0;
+    if (!curl) return;
     if (curl) {
         char bufferPost[100];
         snprintf(bufferPost,sizeof(bufferPost),"userID=%s&tokenCount=0",gmail);
