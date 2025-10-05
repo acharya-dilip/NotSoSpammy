@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include<gtk/gtk.h>
 #include <curl/curl.h>
 
@@ -15,7 +16,11 @@ void updateSubject();
 void updateBody();
 void updateTokenCount();
 void sendMail();
+static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
     char gmail[50];
+    char pwd[50];
+    char recipientMail;
+
 extern int tokenCount = 1000;
 
     char GMAIL_BODY [4096];
@@ -127,6 +132,8 @@ static void windowMain() {
     entryRecipientMail = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
+    //recipientMail = gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail));
+    //Margins & paddings
     gtk_widget_set_size_request(entryRecipientMail, 350, 20);
     gtk_widget_set_halign(entryRecipientMail, GTK_ALIGN_START);
     gtk_widget_set_margin_start(entryRecipientMail, 15);
@@ -181,6 +188,7 @@ static void windowMain() {
     //Implementation of the Send Mail Button
     buttonSendMail = gtk_button_new_with_label("Send");
     gtk_grid_attach(GTK_GRID(gridParent),buttonSendMail,0,4,1,1);
+    g_signal_connect(buttonSendMail,"clicked",G_CALLBACK(sendMail),NULL);
     //MARGINS & PADDING
         gtk_widget_set_margin_start(buttonSendMail,15);
         gtk_widget_set_margin_end(buttonSendMail,15);
@@ -257,7 +265,6 @@ void checkLogin(GtkApplication *app,gpointer user_data) {
 
     //OBTAIN THE GMAIL AND PASSWORD
     strcpy(gmail,gtk_editable_get_text(GTK_EDITABLE(entryGmail)));
-    char pwd[50];
     strcpy(pwd,gtk_editable_get_text(GTK_EDITABLE(entryPassword)));
 
     //Initalise Curl for the credential authentication
@@ -462,10 +469,60 @@ void updateBody() {
 
 
 void sendMail() {
+    //Formatting mail correctly
+    char mailPayload[5000];
+    snprintf(mailPayload,sizeof(mailPayload),
+        "From:%s \r\n"
+        "To:%s \r\n"
+        "Subject: %s \r\n"
+        "\r\n"
+        "%s \r\n",
+        gmail,gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)),GMAIL_SUBJECT,GMAIL_BODY);
+    //Pointer to track progress
+    char *mailPayload_ptr=mailPayload;
+    //Initialising Curl
     CURL *curl=curl_easy_init();
+    CURLcode res;
     if (!curl) return;
+    if (curl) {
+        //Credentials for auth
+        curl_easy_setopt(curl,CURLOPT_USERNAME,gmail);
+        curl_easy_setopt(curl,CURLOPT_PASSWORD,pwd);
+        //Connection
+        curl_easy_setopt(curl,CURLOPT_URL, "smtp://smtp.gmail.com:587");
+        curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+        //sending mail
+        curl_easy_setopt(curl,CURLOPT_MAIL_FROM,gmail);
+        curl_easy_setopt(curl,CURLOPT_MAIL_RCPT,recipientMail);
+        //Idk tracking progress iguess and sending mail
+        curl_easy_setopt(curl, CURLOPT_READFUNCTION, mailPayload);
+        curl_easy_setopt(curl, CURLOPT_READDATA, &mailPayload_ptr);
+        curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
+    //Performing the actual curl
+    res = curl_easy_perform(curl);
+        if (res==CURLE_OK) {
+            tokenCount +=10;
+        }
+
+        curl_easy_cleanup(curl);
+
+    }
 }
+static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp) {
+    char **p = (char **)userp;       // pointer to the current position in the email
+    size_t max = size * nmemb;
+    size_t len = strlen(*p);
+    if (len == 0) return 0;          // done sending
+    size_t to_copy = (len < max) ? len : max;
+    memcpy(ptr, *p, to_copy);
+    *p += to_copy;                   // move pointer forward
+    return to_copy;
+}
+
+
+
+
 
 int main(int argc, char **argv) {
     GtkApplication *app;
