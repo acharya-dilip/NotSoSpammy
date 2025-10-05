@@ -438,7 +438,10 @@ void updateSubject() {
         curl_easy_perform(curl);
     }
     curl_easy_cleanup(curl);
+    //Update the subject entry in the main window
     gtk_editable_set_text(GTK_EDITABLE(lockedEntrySubjectMail),gtk_editable_get_text(GTK_EDITABLE(entryEditMailSubject)));
+    //clear the entry subject in the edit window
+    gtk_editable_set_text(GTK_EDITABLE(entryEditMailSubject),"");
 }
 
 void updateBody() {
@@ -466,7 +469,10 @@ void updateBody() {
         curl_easy_perform(curl);
     }
     curl_easy_cleanup(curl);
+    //Update the text view for body in the main window to show the same text after updating
     gtk_text_view_set_buffer(GTK_TEXT_VIEW(lockedTextViewMail),gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewEditMailBody)));
+    //clear the text view buffer after editing
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(textviewEditMailBody),"");
 }
 
 void sendMail() {
