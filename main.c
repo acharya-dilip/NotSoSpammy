@@ -17,13 +17,12 @@ void updateBody();
 void fetchTokenCount();
 void updateTokenCount();
 void sendMail();
-void addNewUser();
 
     char gmail[50];
     char pwd[50];
     char recipientMail[50];
 
-     int tokenCount;
+     int tokenCount=10;
 
     char GMAIL_BODY [4096];
     char GMAIL_SUBJECT [1024];
@@ -105,22 +104,6 @@ static void windowMain() {
     gtk_widget_set_size_request(lockedEntryUserID, 350, 20);
 
 
-
-    //Implementation of Token Count
-    // char TokenCount[50];
-    // snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
-
-    // labelTokenCount = gtk_label_new (TokenCount);
-    // frameTokenCount = gtk_frame_new(NULL);
-    // gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
-    // //gtk_frame_set_label_widget(GTK_FRAME(frameTokenCount), labelTokenCount);
-    // gtk_grid_attach(GTK_GRID(gridUserIDToken), frameTokenCount, 3, 0, 1, 1);
-    // //MARGINS & Paddings
-    // gtk_widget_set_size_request(frameTokenCount, 50, 30);
-    // gtk_widget_set_valign(frameTokenCount,GTK_ALIGN_CENTER);
-
-
-
     //Implementation of Recipient Email
     gridRecipientMailEditButton = gtk_grid_new();
     gtk_grid_attach(GTK_GRID(gridParent), gridRecipientMailEditButton, 0, 1, 2, 1);
@@ -131,7 +114,7 @@ static void windowMain() {
     entryRecipientMail = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entryRecipientMail),"Enter Recipient Mail");
     gtk_grid_attach(GTK_GRID(gridRecipientMailEditButton), entryRecipientMail, 0, 0, 1, 1);
-    //strcpy(recipientMail, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
+
     //Margins & paddings
     gtk_widget_set_size_request(entryRecipientMail, 350, 20);
     gtk_widget_set_halign(entryRecipientMail, GTK_ALIGN_START);
@@ -168,12 +151,9 @@ static void windowMain() {
     gtk_text_view_set_editable(GTK_TEXT_VIEW(lockedTextViewMail),FALSE);
     gtk_grid_attach(GTK_GRID(gridParent),lockedTextViewMail, 0, 3, 1, 1);
     fetchBody();
-    // char labelValueTextViewBodyMail [4096];
-    // snprintf(labelValueTextViewBodyMail, sizeof(labelValueTextViewBodyMail),"%s",GMAIL_BODY);
     GtkTextBuffer *lockedTextViewMailBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(lockedTextViewMail));
     gtk_text_buffer_set_text(lockedTextViewMailBuffer,GMAIL_BODY,-1);
 
-    //gtk_editable_set_text(GTK_EDITABLE(lockedTextViewMail),labelValueTextViewBodyMail);
     //MARGINS & PADDING
         gtk_widget_set_size_request(lockedTextViewMail,570,350);
         gtk_widget_set_margin_start(lockedTextViewMail, 15);
@@ -211,8 +191,6 @@ static void activate (GtkApplication *app,gpointer user_data){
     gtk_window_set_child(GTK_WINDOW(windowLoginScreen),gridParentLogin);
 
     //Margins & Padding
-    //gtk_widget_set_halign(gridParentLogin,GTK_ALIGN_CENTER);
-    //gtk_widget_set_valign(gridParentLogin,GTK_ALIGN_CENTER);
         gtk_widget_set_size_request(gridParentLogin, 350, 100);
 
     //Implementation of Mail entering field
@@ -252,7 +230,7 @@ static void activate (GtkApplication *app,gpointer user_data){
     g_signal_connect(buttonLogin, "clicked",G_CALLBACK(checkLogin),NULL);
 
     //Margins & Padding
-    //gtk_widget_set_margin_start(buttonLogin,15);
+
     gtk_widget_set_margin_end(buttonLogin,15);
 
 
@@ -337,7 +315,7 @@ void editMail(GtkApplication *app, gpointer user_data){
     gtk_grid_attach(GTK_GRID(gridParentEdit),textviewEditMailBody, 0, 1, 10, 10);
     //MAKES IT SO THAT THE TEXT AUTOMATICALLY GOES TO LINE BELOW INSTEAD OF FOREVER
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(textviewEditMailBody),TRUE);
-    //gtk_entry_set_placeholder_text(GTK_ENTRY(textviewEditMailBody),"Enter Your Mail");
+
 
     //Margins & PADDINGSSS
     gtk_widget_set_margin_end(textviewEditMailBody,10);
@@ -352,7 +330,7 @@ void editMail(GtkApplication *app, gpointer user_data){
 
     //Margieans and Peddings
     gtk_widget_set_margin_start(buttonSubmit,10);
-    //gtk_widget_set_margin_end(buttonSubmit,10);
+
     gtk_widget_set_margin_top(buttonSubmit,10);
     gtk_widget_set_margin_bottom(buttonSubmit,10);
     gtk_widget_set_halign(buttonSubmit,GTK_ALIGN_START);
@@ -363,7 +341,7 @@ void editMail(GtkApplication *app, gpointer user_data){
     labelTokenCount = gtk_label_new (TokenCount);
     frameTokenCount = gtk_frame_new(NULL);
     gtk_frame_set_child(GTK_FRAME(frameTokenCount),labelTokenCount);
-    //gtk_frame_set_label_widget(GTK_FRAME(frameTokenCount), labelTokenCount);
+
     gtk_grid_attach(GTK_GRID(gridParentEdit), frameTokenCount, 9, 11, 1, 1);
     //MARGINS & Paddings
     gtk_widget_set_margin_end(frameTokenCount,10);
@@ -379,7 +357,6 @@ void fetchSubject() {
     if (!curl) return;
     if (curl) {
         curl_easy_setopt(curl,CURLOPT_URL,"https://docs.google.com/spreadsheets/d/e/2PACX-1vTflJgUIQUMdTr5FpK4gVirLpFFpqmi4oaI4Znp5QsCcLmUNWvjYHXPX7BxNhCxttiqRcJxl1drPFkX/pub?output=csv");
-        //curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,write_callback_subject);
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_perform(curl);
@@ -479,10 +456,6 @@ void sendMail() {
     CURL *curl;
     CURLcode res = CURLE_OK;
 
-    // const char *email = gmail;
-    // const char *app_password = pwd;
-    // const char *recipient = recipientMail;
-
     // Write email content to temp file
     FILE *fp = fopen("email.txt", "w");
     if (!fp) return ;
@@ -501,17 +474,13 @@ void sendMail() {
     if(curl) {
         curl_easy_setopt(curl, CURLOPT_URL, "smtp://smtp.gmail.com:587");
         curl_easy_setopt(curl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
-        //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
         curl_easy_setopt(curl, CURLOPT_USERNAME, gmail);
         curl_easy_setopt(curl, CURLOPT_PASSWORD, pwd);
-        //printf("pwd is %s",pwd);
 
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, gmail);
-        //printf("mail is %s",gmail);
         struct curl_slist *recipients = NULL;
         recipients = curl_slist_append(recipients, gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
-        //printf("recipient mail is %s",gtk_editable_get_text(GTK_EDITABLE(entryRecipientMail)));
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
 
         // Open the file for libcurl to read
@@ -521,73 +490,21 @@ void sendMail() {
 
         res = curl_easy_perform(curl);
 
-        if(res != CURLE_OK)
-            fprintf(stderr, "❌ curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
-        else
-            printf("✅ Email sent successfully!\n");
-
         fclose(upload_fp);
         curl_slist_free_all(recipients);
         curl_easy_cleanup(curl);
     }
 
     curl_global_cleanup();
-    gtk_editable_set_text(GTK_EDITABLE(entryRecipientMail),"");
+    //gtk_editable_set_text(GTK_EDITABLE(entryRecipientMail),"");
 
 }
-
-// void sendMail() {
-//     //Writing the mail in a file
-//     FILE *fp = fopen("email.txt", "w");
-//     if (!fp) return;
-//     fprintf(fp,
-//             "To: %s\r\n"
-//             "From: %s\r\n"
-//             "Subject: %s\r\n"
-//             "\r\n"
-//             "%s\n",
-//             recipientMail, gmail,GMAIL_SUBJECT,GMAIL_BODY);
-//     fclose(fp);
-//
-//     //STARTING CURL
-//     CURL *curl = curl_easy_init();
-//     if (!curl) return ;
-//     if (curl) {
-//         curl_easy_setopt(curl,CURLOPT_URL,"smtp://smtp.gmail.com:587");
-//         curl_easy_setopt(curl,CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
-//
-//         curl_easy_setopt(curl, CURLOPT_USERNAME, gmail);
-//         curl_easy_setopt(curl, CURLOPT_PASSWORD, pwd);
-//
-//         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, gmail);
-//         struct curl_slist *recipients = NULL;
-//         recipients = curl_slist_append(recipients, recipientMail);
-//         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
-//
-//         // Open the file for libcurl to read
-//         FILE *upload_fp = fopen("email.txt", "r");
-//         curl_easy_setopt(curl, CURLOPT_READDATA, upload_fp);
-//         curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
-//
-//             curl_easy_perform(curl);
-//             fclose(upload_fp);
-//             curl_slist_free_all(recipients);
-//             curl_easy_cleanup(curl);
-//
-//     }
-// }
-
-
-
 
 
 void fetchTokenCount() {
 
 }
 
-void addNewUser() {
-
-}
 
 
 void updateTokenCount() {
