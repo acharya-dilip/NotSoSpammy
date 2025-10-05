@@ -22,7 +22,7 @@ void sendMail();
     char pwd[50];
     char recipientMail[50];
 
-     int tokenCount=10;
+     int tokenCount=0;
 
     char GMAIL_BODY [4096];
     char GMAIL_SUBJECT [1024];
@@ -59,7 +59,6 @@ char TokenCount[50];
 
 static void windowMain() {
 
-    //fetchTokenCount();
 
     //Main Window Init and Customization
     NotSoSpammyWindow = gtk_window_new ();
@@ -287,6 +286,9 @@ void closeLoginWindow(GtkApplication *app, gpointer user_data) {
     GtkWidget *buttonSubmit;
 
 void editMail(GtkApplication *app, gpointer user_data){
+
+    fetchTokenCount(); //To receive the token count to display
+
     windowEditMail = gtk_window_new();
     gtk_window_set_title(GTK_WINDOW(windowEditMail),"Edit Mail");
     gtk_window_set_default_size(GTK_WINDOW(windowEditMail),400,400);
