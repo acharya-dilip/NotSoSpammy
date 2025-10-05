@@ -454,7 +454,7 @@ void updateBody() {
 
 void sendMail() {
     CURL *curl;
-    CURLcode res = CURLE_OK;
+    CURLcode res;
 
     // Write email content to temp file
     FILE *fp = fopen("email.txt", "w");
@@ -489,7 +489,9 @@ void sendMail() {
         curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
 
         res = curl_easy_perform(curl);
-
+        if (res==CURLE_OK) {
+            tokenCount+=10;
+        }
         fclose(upload_fp);
         curl_slist_free_all(recipients);
         curl_easy_cleanup(curl);
