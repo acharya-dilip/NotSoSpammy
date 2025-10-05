@@ -14,8 +14,10 @@ void fetchBody();
 size_t write_callback_body(void *ptr, size_t size, size_t nmemb, void *userdata);
 void updateSubject();
 void updateBody();
+void fetchTokenCount();
 void updateTokenCount();
 void sendMail();
+
 static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
     char gmail[50];
     char pwd[50];
@@ -54,10 +56,7 @@ GtkWidget *entryPassword;
 GtkWidget *labelPassword;
 GtkWidget *buttonLogin;
 char TokenCount[50];
-void updateTokenCount() {
-    snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
-    gtk_label_set_text(GTK_LABEL(labelTokenCount),TokenCount);
-}
+
 
 static void windowMain() {
 
@@ -518,6 +517,38 @@ static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp) 
     memcpy(ptr, *p, to_copy);
     *p += to_copy;                   // move pointer forward
     return to_copy;
+}
+
+
+void fetchTokenCount() {
+    CURL *curl = curl_easy_init();
+    if (!curl) return;
+    if (curl) {
+        char respBuffer[2000]={0};
+        char appwritePayload[500];
+        snprintf(appwritePayload, sizeof(appwritePayload),"https://script.google.com/macros/s/AKfycbw3fDsSkHqSMvDG_hjN6wtc124gG906BFu-M1hZE7FP4uHsBEKbWZ90iVnVWn5EOSA/exec?userID=%s",gmail);
+        //Fetching data from the google sheet
+        curl_easy_setopt(curl,CURLOPT_URL,appwritePayload);
+        curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,fwrite);
+        curl_easy_setopt(curl,CURLOPT_WRITEDATA,respBuffer);
+
+        curl_easy_perform(curl);
+
+        //Read the token count and store it in a variable
+        char *p = strstr(respBuffer, "\"tokenCount\":");
+        if(p) sscanf(p, "\"tokenCount\":%d", &tokenCount);
+
+        curl_easy_cleanup(curl);
+
+
+
+    }
+}
+
+void updateTokenCount() {
+
+    snprintf(TokenCount, sizeof(TokenCount),"🪙%d",tokenCount);
+    gtk_label_set_text(GTK_LABEL(labelTokenCount),TokenCount);
 }
 
 
