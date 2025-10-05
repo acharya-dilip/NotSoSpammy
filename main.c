@@ -411,7 +411,7 @@ void updateMail() {
     if (tokenCount>=100) {
 
         updateSubject();
-        //updateBody();
+        updateBody();
         tokenCount=tokenCount-100;
         updateTokenCount();
     }
@@ -434,10 +434,24 @@ void updateSubject() {
 
 void updateBody() {
     CURL *curl=curl_easy_init();
-
+    if (!curl) return;
     if (curl) {
         curl_easy_setopt(curl,CURLOPT_URL,"https://script.google.com/macros/s/AKfycbxnbf7d4hWBRtrjQIxqy6yhQivW_74AXxBWvIE08whazoSUWVDDna_u82Cu38ZovWKY/exec");
-        curl_easy_setopt(curl,CURLOPT_POST,gtk_editable_get_text(GTK_EDITABLE(textviewEditMailBody)));
+
+        // //Fetching the gmail body text and posting it
+        GtkTextBuffer *textvieweditmailbuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textviewEditMailBody));
+        GtkTextIter start, end;
+        gchar *temp;
+        gtk_text_buffer_get_start_iter(textvieweditmailbuffer, &start);
+        gtk_text_buffer_get_end_iter(textvieweditmailbuffer, &end);
+        temp=gtk_text_buffer_get_text(textvieweditmailbuffer, &start, &end, FALSE);
+        char updateBody[4150];
+        snprintf(updateBody,sizeof(updateBody),"body=%s",temp);
+
+
+
+        curl_easy_setopt(curl, CURLOPT_POST, 1L);
+        curl_easy_setopt(curl,CURLOPT_POSTFIELDS,updateBody);
         curl_easy_setopt(curl,CURLOPT_FOLLOWLOCATION, 1L);
 
         curl_easy_perform(curl);
