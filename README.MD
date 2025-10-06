@@ -54,5 +54,23 @@ which is visible and locked and same for all the users and you can override it a
 |-------------------|
 | ./justasimpleccal |
 
+# Windows Build Instructions
+      
+ ### Install Required Porgrams
+#### Download <a href=https://www.mingw-w64.org/>MinGW</a>
+#### Download <a href=https://www.msys2.org/>MSYS2</a> 
+
+### Install Dependencies
+- After Installing MSYS2 open the MSYS MinGW64 terminal
+- Paste the following commands
+
+ |Commands                               |What it Does             |
+ |---------------------------------------|-------------------------|
+ | pacman -Syu                           | Updates your packages   |
+ | pacman -S mingw-w64-x86_64-toolchain  | Installs Toolchain      |
+ | pacman -S mingw-w64-x86_64-cmake      | Installs Cmake          | 
+ | pacman -S mingw-w64-x86_64-gtk4       | Installs GTK4 Library   |
+ | pacman -S mingw-w64-x86_64-curl       | Installs CURL Library   | 
+ | pacman -S pkgconf                     | Installs PackageConfig  | 
 
 
