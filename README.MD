@@ -28,30 +28,34 @@ which is visible and locked and same for all the users and you can override it a
 | sudo apt install curl            | sudo pacman -S curl         |
 | sudo apt install build-essential | sudo pacman -S base-devel   |
 | sudo apt install cmake           | sudo pacman -S cmake        |
+ 
+### Clone into the Github repo
 
-| Clone into the Github repo                                 |
-|------------------------------------------------------------|
+| Command                             |
+|---------------------------------------------------------|
 | git clone https://github.com/acharya-dilip/NotSoSpammy.git |
-
-| Navigate to project directory |
-|-------------------------------|
-| cd NotSoSpammy                |
-
-| Create the build directory |
-|----------------------------|
-| mkdir build                |
-
-| Navigate into the build directory |
-|-----------------------------------|
-| cd build                          |
-
-| Execute the Build Commands |
+### Navigate to project directory
+| Command   |
+|------------------------------|
+| cd NotSoSpammy               |
+### Create the build directory
+| Command  |
+|--------------------------|
+| mkdir build              |
+### Navigate into the build directory
+| Command   |
+|----------------------------------|
+| cd build                         |
+###  Execute the Build Commands
+| Commands   |
 |----------------------------|
 | cmake ..                   |
 | cmake --build .            |
 
-| Run the Program   |
-|-------------------|
+### Run the Program
+
+| Command         |
+|-----------------|
 | ./justasimpleccal |
 
 # Windows Build Instructions
@@ -73,4 +77,34 @@ which is visible and locked and same for all the users and you can override it a
  | pacman -S mingw-w64-x86_64-curl       | Installs CURL Library   | 
  | pacman -S pkgconf                     | Installs PackageConfig  | 
 
+### Clone into the Github repo
+| Command                                |
+|-----------------------------------------------------------|
+| git clone https://github.com/acharya-dilip/NotSoSpammy.git |
+### Navigate to project dir from MSYS MinGW terminal                                   
+| Command                                                                           |
+|-----------------------------------------------------------------------------------|
+| cd /NotSoSpammy (Be sure to use forward / while navigating in MSYS MinGW terminal) |
+### Create the build directory
+| Command |
+|---------------------------|
+| mkdir build               |
+### Navigate into the build directory
+| Command |
+|----------------------------------|
+| cd build                         |
+### Execute the Build Commands
+| Commands |
+|----------------------------|
+| cmake -G "MinGW Makefiles" .. |
+| mingw32-make |
 
+### Extract the dll.zip file
+Before running the program you just compiled be sure to extract the dll.zip file from the repo
+ in the same directory as your .exe file that you just made or the program wont run.
+
+
+| Run the Program       |
+|-----------------------|
+| ./justasimpleccal.exe |
+      
