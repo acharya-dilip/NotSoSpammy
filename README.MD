@@ -9,13 +9,13 @@ which is visible and locked and same for all the users and you can override it a
 
 # LINUX BUILD INSTRUCTIONS
 
-|## FOR DEBIAN/UBUNTU | For ARCH |
-
-| ### Install Dependencies | 
-| #### sudo apt install gtk | ### sudo pacman -S gtk |
-| #### sudo apt install curl | ### sudo pacman -S curl |
-| #### sudo apt install build-essential | ### sudo pacman -S base-devel |
-| #### sudo apt install cmake | ###sudo pacman -S cmake |
+| FOR DEBIAN/UBUNTU                | For ARCH                    |
+|----------------------------------|-----------------------------|
+| Install Dependencies             | Install Dependencies        |
+|  sudo apt install gtk            | sudo pacman -S gtk          |
+|  sudo apt install curl           | sudo pacman -S curl         |
+| sudo apt install build-essential | sudo pacman -S base-devel   |
+|  sudo apt install cmake          | sudo pacman -S cmake        |
 
 ### Clone into the Github repo
 #### git clone https://github.com/acharya-dilip/NotSoSpammy.git
