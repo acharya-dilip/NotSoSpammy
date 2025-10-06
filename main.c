@@ -152,6 +152,8 @@ static void windowMain() {
     fetchBody();
     GtkTextBuffer *lockedTextViewMailBuffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(lockedTextViewMail));
     gtk_text_buffer_set_text(lockedTextViewMailBuffer,GMAIL_BODY,-1);
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(lockedTextViewMail),TRUE);
+
 
     //MARGINS & PADDING
         gtk_widget_set_size_request(lockedTextViewMail,570,350);
