@@ -7,8 +7,8 @@ CURL 8 for the API calls and requests while using google sheet to store the glob
 which is visible and locked and same for all the users and you can override it after you earn enough tokens
 
 
-LINUX BUILD INSTRUCTIONS
+# LINUX BUILD INSTRUCTIONS
 
-FOR DEBIAN/UBUNTU
+###FOR DEBIAN/UBUNTU
 
 '''sudo apt install gtk'''
