@@ -19,35 +19,40 @@ which is visible and locked and same for all the users and you can override it a
 
 ## HAPPY SPAMMING!!
 
-# LINUX BUILD INSTRUCTIONS
+# LIUNX BUILD INSTRUCTIONS
 
-| FOR DEBIAN/UBUNTU                | For ARCH                    |
-|----------------------------------|-----------------------------|
-| Install Dependencies             | Install Dependencies        |
-|  sudo apt install gtk            | sudo pacman -S gtk          |
-|  sudo apt install curl           | sudo pacman -S curl         |
+| FOR DEBIAN/UBUNTU                | For ARCH                    |      
+|----------------------------------|-----------------------------|      
+| Install Dependencies             | Install Dependencies        |      
+| sudo apt install gtk             | sudo pacman -S gtk          |
+| sudo apt install curl            | sudo pacman -S curl         |
 | sudo apt install build-essential | sudo pacman -S base-devel   |
-|  sudo apt install cmake          | sudo pacman -S cmake        |
+| sudo apt install cmake           | sudo pacman -S cmake        |
 
-### Clone into the Github repo
-#### git clone https://github.com/acharya-dilip/NotSoSpammy.git
+| Clone into the Github repo                                 |
+|------------------------------------------------------------|
+| git clone https://github.com/acharya-dilip/NotSoSpammy.git |
 
-### Navigate to project directory
-#### cd NotSoSpammy
+| Navigate to project directory |
+|-------------------------------|
+| cd NotSoSpammy                |
 
-### Create the build directory
-#### mkdir build
+| Create the build directory |
+|----------------------------|
+| mkdir build                |
 
-### Navigate into the build directory
-#### cd build
+| Navigate into the build directory |
+|-----------------------------------|
+| cd build                          |
 
-### Execute the Build Commands
+| Execute the Build Commands |
+|----------------------------|
+| cmake ..                   |
+| cmake --build .            |
 
-#### cmake ..
-#### cmake --build .
-
-### Run the Program
-#### ./justasimpleccal
+| Run the Program   |
+|-------------------|
+| ./justasimpleccal |
 
 
 
