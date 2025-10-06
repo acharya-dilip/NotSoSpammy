@@ -9,6 +9,6 @@ which is visible and locked and same for all the users and you can override it a
 
 # LINUX BUILD INSTRUCTIONS
 
-###FOR DEBIAN/UBUNTU
+### FOR DEBIAN/UBUNTU
 
-'''sudo apt install gtk'''
+''' sudo apt install gtk
