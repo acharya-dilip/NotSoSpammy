@@ -17,6 +17,9 @@ which is visible and locked and same for all the users and you can override it a
 - After Spa-/Sending your mails you amass 100 tokens than you can go into the edit mail and create a new mail with a new message which is global.<br>
 - After you submit it 100 tokens are deducted and the global mail that is displayed on everyone's screen will be changed to your current submitted one.<br>
 
+# Demo Video
+https://youtube.com/shorts/LtRvTKAoplo?si=Td1RuS_2cQAXxi36
+
 ## HAPPY SPAMMING!!
 
 # LIUNX BUILD INSTRUCTIONS
